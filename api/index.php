@@ -15,6 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+namespace complicatednetworkmeter {
+
 header('HTTP/1.1 503 Service Temporarily Unavailable');
 header('Status: 503 Service Temporarily Unavailable');
 header('Retry-After: 300');//300 seconds
+
+}

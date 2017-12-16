@@ -15,26 +15,28 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-require_once("../config.php");
-require_once("monitorapi.php");
+use complicatednetworkmeter;
 
-$cfg = new Config();
+namespace complicatednetworkmeter\api {
 
-if($cfg->isMonitor()) {
-	if(isset($_GET['v'])) {
+	$cfg = new Config();
+
+	if($cfg->isMonitor()) {
+		if(isset($_GET['v'])) {
 	
-		$d = $_GET['v'];
-	
-		//site.com/api.php?v={service};up;down
-	
-		if(preg_match("^[A-Za-z0-9];{down|up};{down|up}", $d)) {
-			//deserialize by using ;
-			$data = explode(";", $d);
-			$monitor = new MonitorAPI($data);
-		} else {
-				echo "malformed packet!";
-		}
-	}	
-} else {
-	
+			$d = $_GET['v'];
+		
+			//site.com/api.php?v={service};up;down
+		
+			if(preg_match("^[A-Za-z0-9];{down|up};{down|up}", $d)) {
+				//deserialize by using ;
+				$data = explode(";", $d);
+				$monitor = new MonitorAPI($data);
+			} else {
+					echo "malformed packet!";
+			}
+		}	
+	} else {
+		
+	}
 }

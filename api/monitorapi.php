@@ -1,27 +1,29 @@
 <?php
-require_once("monitordatabase.php");
-class MonitorAPI extends MonitorDatabase {
+namespace complicatednetworkmeter\api {
 
-	private $servicename;
-	private $dns;
-	private $pingip;
+	class MonitorAPI extends MonitorDatabase {
 
-	public function __construct($data) {
-		$this->servicename = $data[0];
-		$this->dns = ($data[1] == "up" ? true : false);
-		$this->pingip = ($data[2] == "up" ? true : false);
-	}
+		private $servicename;
+		private $dns;
+		private $pingip;
 
-	public function getName() {
-		return $this->servicename;
-	}
+		public function __construct($data) {
+			$this->servicename = $data[0];
+			$this->dns = ($data[1] == "up" ? true : false);
+			$this->pingip = ($data[2] == "up" ? true : false);
+		}
 	
-	public function isDNSActive() {
-		return $this->dns;
-	}
+		public function getName() {
+			return $this->servicename;
+		}
 	
-	public function isPINGActive() {
-		return $this->pingip;
-	}
+		public function isDNSActive() {
+			return $this->dns;
+		}
 	
+		public function isPINGActive() {
+			return $this->pingip;
+		}
+		
+	}
 }
