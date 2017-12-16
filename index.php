@@ -14,24 +14,25 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-
-if(!file_exists("config.php")) {
-	header("Location: /install/");
-} else {
-	require_once("config.php");
-	$cfg = new Config();
-	if($cfg->IsMonitor()) {
-		//register url listener which stores the latest activity
-		
-		//check data from database.
-		
-		//represent data from the database
+namespace complicatednetworkmeter {
+	if(!file_exists("config.php")) {
+		header("Location: /install/");
 	} else {
-		//retrieves the main monitor node from the config
+		require_once("config.php");
+		$cfg = new Config();
+		if($cfg->IsMonitor()) {
+			//register url listener which stores the latest activity
+			
+			//check data from database.
 		
-		//performs tests to DNS and other upstream services PING, and DNS (reads from upstream.yml)
+			//represent data from the database
+		} else {
+			//retrieves the main monitor node from the config
 		
-		//after the tests have been completed grab the monitor url from the config or reuse the same url address which should be a static ip and sent a API url request to the monitor node
-		//this url will contain a detailed stroke of information to what is offline or not.
+			//performs tests to DNS and other upstream services PING, and DNS (reads from upstream.yml)
+		
+			//after the tests have been completed grab the monitor url from the config or reuse the same url address which should be a static ip and sent a API url request to the monitor node
+			//this url will contain a detailed stroke of information to what is offline or not.
+		}
 	}
 }
