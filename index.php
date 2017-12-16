@@ -27,11 +27,11 @@ if(!file_exists("config.php")) {
 		
 		//represent data from the database
 	} else {
-		//retrieve the main monitor node from the config
+		//retrieves the main monitor node from the config
 		
 		//performs tests to DNS and other upstream services PING, and DNS (reads from upstream.yml)
 		
-		//after the tests have been completed grab the monitor url from the config which should be a static ip and sent a API url request to the monitor node
-		//this url will contains a detailed stroke of information to what is offline or not.
+		//after the tests have been completed grab the monitor url from the config or reuse the same url address which should be a static ip and sent a API url request to the monitor node
+		//this url will contain a detailed stroke of information to what is offline or not.
 	}
 }
