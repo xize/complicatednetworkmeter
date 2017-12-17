@@ -55,8 +55,8 @@ namespace complicatednetworkmeter {
 
 					echo "<div class=\"monitorblock\">";
 					echo "	<h4 style=\"". ($monitor->isPINGActive() && $monitor->isDNSActive()) ? "background:green;" : "background:red;") ."\">Service: ".$monitor->getName()."</h4>";
-					echo "	<div class=\"DNSBLOCK\" style=\"". $monitor->isDNSActive() ? "background:green;" : "background:red;" ."\"/>DNS failed?: ". $monitor->isDNSActive() ? "no the dns is working smooth" : "the dns failed to work!"."</div>";
-					echo "	<div class=\"PINGBLOCK\" style=\"". $monitor->isPINGActive() ? "background:green;" : "background:red;" ."\"/>PING failed?: ". $monitor->isPINGActive() ? "no the ping request is working smooth" : "the ping showed indication of packet loss!"."</div>";
+					echo "	<div class=\"DNSBLOCK\" style=\"". $monitor->isDNSActive() ? "background:green;" : "background:red;" ."\"/>DNS failed?: ". $monitor->isDNSActive() ? "the dns works" : "the dns failed"."</div>";
+					echo "	<div class=\"PINGBLOCK\" style=\"". $monitor->isPINGActive() ? "background:green;" : "background:red;" ."\"/>PING failed?: ". $monitor->isPINGActive() ? "the ping request works" : "the ping request showed indication of packet loss"."</div>";
 					echo "</div>";
 				}
 			}
