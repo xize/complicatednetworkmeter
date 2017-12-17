@@ -35,7 +35,7 @@ namespace complicatednetworkmeter {
 			$data = $stmt->FetchAll();
 			$sql->close();
 
-			$monitordata = new array();
+			$monitordata = array();
 
 			foreach($assoc in $data) {
 				$name = $assoc['name'];
