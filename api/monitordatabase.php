@@ -20,7 +20,16 @@ use complicatednetworkmeter;
 namespace complicatednetworkmeter\api {
 
 	class MonitorDatabase {
-		public void addToDatabase($name = "", $dns = false, $ping = false) {
+
+		/**
+		* Adds the data into the database, this will be updated once one of the devices hitted our url.
+		*
+		* @author xize
+		* @param name - the name of the service being called
+		* @param dns - the status of the dns server for this service
+		* @param ping - the status of the ping command being used by this service
+		*/
+		public void addToDatabase($name = "", $dns = false, $ping = false) { //add type check.
 			if(strlen($name) > 0) {
 				
 				$cfg = new Config();
@@ -30,20 +39,19 @@ namespace complicatednetworkmeter\api {
 					exit();
 				}
 				
-				$stmt1 = $sql->prepare("DELETE FROM monitor WHERE name=?");
-				$stmt1->bind_param("s", $name);
-				$stmt1->execute();
-				
-				$stmt2 = $sql->prepare("INSERT INTO monitor (name, dns, ping, date) VALUES(?, ?, ?, ?)");
-				$stmt2->bind_param("ssss", $name, (string)$dns, (string)$ping, date("Ymd"));
-				$stmt2->execute();
-				$sql->close();
+
+				//if it finds the table, it will update the table if not a new table is getting created, this will fix performance issues.
+				$date = date("Ymd");
+				$stmt = $sql->prepare("SELECT * FROM monitor WHERE EXISTS (SELECT * FROM monitor WHERE name=?) THEN UPDATE monitor SET name=?, dns=?, ping=?, date=? WHERE name=? ELSE INSERT INTO monitor(name, dns, ping, date) VALUES(?, ?, ?, ?) END");
+				$stmt->bind_param("ssssssssss", $name, $name, $dns, $ping, $date, $name, $name, $dns, $ping, $date);
+				$stmt.execute();
 			} else {
 				//throw 503 here since we do not fill our database with empty objects!
 				header('HTTP/1.1 503 Service Temporarily Unavailable');
 				header('Status: 503 Service Temporarily Unavailable');
 				header('Retry-After: 300');//300 seconds
 			}
-		}	
+		}
+
 	}
 }
