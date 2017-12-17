@@ -45,6 +45,7 @@ namespace complicatednetworkmeter\api {
 				$stmt = $sql->prepare("SELECT * FROM monitor WHERE EXISTS (SELECT * FROM monitor WHERE name=?) THEN UPDATE monitor SET name=?, dns=?, ping=?, date=? WHERE name=? ELSE INSERT INTO monitor(name, dns, ping, date) VALUES(?, ?, ?, ?) END");
 				$stmt->bind_param("ssssssssss", $name, $name, $dns, $ping, $date, $name, $name, $dns, $ping, $date);
 				$stmt.execute();
+				$sql->close();
 			} else {
 				//throw 503 here since we do not fill our database with empty objects!
 				header('HTTP/1.1 503 Service Temporarily Unavailable');
