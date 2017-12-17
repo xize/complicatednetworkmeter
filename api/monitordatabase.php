@@ -19,7 +19,7 @@ use complicatednetworkmeter;
 
 namespace complicatednetworkmeter\api {
 
-	class MonitorDatabase {
+	protected class MonitorDatabase {
 
 		/**
 		* Adds the data into the database, this will be updated once one of the devices hitted our url.
