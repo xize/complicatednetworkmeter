@@ -32,11 +32,12 @@ namespace complicatednetworkmeter\api {
 				//deserialize by using ;
 				$data = explode(";", $d);
 				$monitor = new MonitorAPI($data);
+				$monitor->addToDatabase($monitor->getName(), $monitor->isDNSActive(), $monitor->isPINGActive());
 			} else {
 					echo "malformed packet!";
 			}
 		}	
 	} else {
-		
+		//add scheduler to do this
 	}
 }
