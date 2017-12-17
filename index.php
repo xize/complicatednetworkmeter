@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-use complicatednetworkmeter/api;
+use complicatednetworkmeter\api;
 
 namespace complicatednetworkmeter {
 	if(!file_exists("config.php")) {
