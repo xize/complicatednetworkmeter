@@ -14,6 +14,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
+use complicatednetworkmeter/api;
+
 namespace complicatednetworkmeter {
 	if(!file_exists("config.php")) {
 		header("Location: /install/");
@@ -22,9 +25,39 @@ namespace complicatednetworkmeter {
 		if($cfg->IsMonitor()) {
 			//register url listener which stores the latest activity
 			
+			include_once("/api/api.php"); //TODO: figuring out if this the right way todo it.... perhaps it needs to be reworked.
+
 			//check data from database.
 		
+			$sql = new Mysqli($cfg->dbhost, $cfg->dbuser, $cfg->dbpass, $cfg->db);
+			$stmt = $sql->prepare("SELECT * FROM Monitor");
+			$stmt->execute();
+			$data = $stmt->FetchAll();
+			$sql->close();
+
+			$monitordata = new array();
+
+			foreach($assoc in $data) {
+				$name = $assoc['name'];
+				$dns = $assoc['dns'];
+				$ping = $assoc['ping'];
+				$d = array($name, $dns, $ping);
+				$monitor = new MonitorApi($d);
+				array_push($monitordata, $monitor);
+			}
+
 			//represent data from the database
+
+			foreach($monitor in $monitordata) {
+				if($monitor instanceof MonitorApi) {
+
+					echo "<div class=\"monitorblock\">";
+					echo "	<h4 style=\"". ($monitor->isPINGActive() && $monitor->isDNSActive()) ? "background:green;" : "background:red;") ."\">Service: ".$monitor->getName()."</h4>";
+					echo "	<div class=\"DNSBLOCK\" style=\"". $monitor->isDNSActive() ? "background:green;" : "background:red;" ."\"/>DNS failed?: ". $monitor->isDNSActive() ? "no the dns is working smooth" : "the dns failed to work!"."</div>";
+					echo "	<div class=\"PINGBLOCK\" style=\"". $monitor->isPINGActive() ? "background:green;" : "background:red;" ."\"/>PING failed?: ". $monitor->isPINGActive() ? "no the ping request is working smooth" : "the ping showed indication of packet loss!"."</div>";
+					echo "</div>";
+				}
+			}
 		} else {
 			//retrieves the main monitor node from the config
 		
