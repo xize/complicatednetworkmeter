@@ -42,14 +42,14 @@ namespace complicatednetworkmeter {
 				$dns = $assoc['dns'];
 				$ping = $assoc['ping'];
 				$d = array($name, $dns, $ping);
-				$monitor = new MonitorApi($d);
+				$monitor = new MonitorAPI($d);
 				array_push($monitordata, $monitor);
 			}
 
 			//represent data from the database
 
 			foreach($monitor in $monitordata) {
-				if($monitor instanceof MonitorApi) {
+				if($monitor instanceof MonitorAPI) {
 
 					echo "<div class=\"monitorblock\">";
 					echo "	<h4 style=\"". ($monitor->isPINGActive() && $monitor->isDNSActive()) ? "background:green;" : "background:red;") ."\">Service: ".$monitor->getName()."</h4>";
