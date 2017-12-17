@@ -18,7 +18,6 @@ namespace complicatednetworkmeter {
 	if(!file_exists("config.php")) {
 		header("Location: /install/");
 	} else {
-		require_once("config.php");
 		$cfg = new Config();
 		if($cfg->IsMonitor()) {
 			//register url listener which stores the latest activity
