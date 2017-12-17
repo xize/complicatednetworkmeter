@@ -49,6 +49,8 @@ namespace complicatednetworkmeter {
 			//represent data from the database
 
 			foreach($monitor in $monitordata) {
+				
+				//add type cast via instanceof, since PHP doesn't have JIT some editors can recognize the MonitorAPI calls via instanceof.
 				if($monitor instanceof MonitorAPI) {
 
 					echo "<div class=\"monitorblock\">";
