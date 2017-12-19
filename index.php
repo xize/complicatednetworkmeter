@@ -17,6 +17,7 @@ limitations under the License.
 use complicatednetworkmeter\api;
 
 namespace complicatednetworkmeter {
+	
 	if(!file_exists("config.php")) {
 		header ("Location: install/index.php");
 	} else {
@@ -36,7 +37,7 @@ namespace complicatednetworkmeter {
 
 			$monitordata = array();
 
-			foreach($assoc in $data) {
+			foreach($assoc as $data) {
 				$name = $assoc['name'];
 				$dns = $assoc['dns'];
 				$ping = $assoc['ping'];
@@ -47,15 +48,16 @@ namespace complicatednetworkmeter {
 
 			//represent data from the database
 
-			foreach($monitor in $monitordata) {
+			foreach($monitor as $monitordata) {
 				
 				//add type cast via instanceof, since PHP doesn't have JIT some editors can recognize the MonitorAPI calls via instanceof.
 				if($monitor instanceof MonitorAPI) {
 
 					echo "<div class=\"monitorblock\">";
-					echo "	<h4 style=\"". ($monitor->isPINGActive() && $monitor->isDNSActive()) ? "background:green;" : "background:red;") ."\">Service: ".$monitor->getName()."</h4>";
-					echo "	<div class=\"DNSBLOCK\" style=\"". $monitor->isDNSActive() ? "background:green;" : "background:red;" ."\"/>DNS failed?: ". $monitor->isDNSActive() ? "the dns works" : "the dns failed"."</div>";
-					echo "	<div class=\"PINGBLOCK\" style=\"". $monitor->isPINGActive() ? "background:green;" : "background:red;" ."\"/>PING failed?: ". $monitor->isPINGActive() ? "the ping request works" : "the ping request showed indication of packet loss"."</div>";
+					
+					echo "	<h4 style=\"" . ($monitor->isPINGActive() ? "background:green" : "background:red") . "\"/>Service: ".$monitor->getName()."</h4>";
+					echo "	<div class=\"DNSBLOCK\" style=\"". $monitor->isDNSActive() ? "background:green" : "background:red" ."\"/>DNS failed?: ". $monitor->isDNSActive() ? "the dns works" : "the dns failed"."</div>";
+					echo "	<div class=\"PINGBLOCK\" style=\"". $monitor->isPINGActive() ? "background:green" : "background:red" ."\"/>PING failed?: ". $monitor->isPINGActive() ? "the ping request works" : "the ping request showed indication of packet loss"."</div>";
 					echo "</div>";
 				}
 			}
