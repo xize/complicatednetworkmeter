@@ -86,18 +86,25 @@ END OF TERMS AND CONDITIONS</textarea></p>";
 					case "1":
 						echo "<h3>please fill in your database settings!</h3>";
 						echo "<hr>";
-						echo "<form name=\"dbsettings\" method=\"post\" action=\"\"/>";
-						echo "	<p>db username: <input type=\"text\" name=\"dbuser\" value=\"user\"/></p>";
-						echo "	<p>db password: <input type=\"password\" name=\"dbpasswd\" value=\"password\"/></p>";
-						echo "	<p>database name: <input type=\"text\" name=\"dbname\" value=\"database\"/></p>";
+						echo "<form name=\"dbsettings\" method=\"post\" action=\"?step=2\"/>";
+						echo "	<p>db username: <input type=\"text\" name=\"dbuser\"/></p>";
+						echo "	<p>db password: <input type=\"password\" name=\"dbpasswd\"/></p>";
+						echo "	<p>database name: <input type=\"text\" name=\"dbname\"/></p>";
+						echo "<p><button onclick=\"window.location.href='?step=index'\")\">back</button><button type=\"submit\">next</button></p>";
 						echo "</form>";
-						echo "<p><button onclick=\"window.location.href='?step=index'\")\">back</button><button onclick=\"window.location.href='?step=2'\">next</button></p>";
 					break;
 					case "2":
-						echo "<h3>please check if the database connection succeeded!</h3>";
-						echo "<hr>";
-						echo "<p><button>check database connection!</button></p>";
-						echo "<p><button onclick=\"window.location.href='?step=1'\">back</button><button onclick=\"window.location.href='?step=3'\">next</button></p>";
+						if(isset($_POST['dbuser']) && strlen($_POST['dbuser']) > 0 && isset($_POST['dbpasswd']) && strlen($_POST['dbpasswd']) > 0 && isset($_POST['dbname']) && strlen($_POST['dbname']) > 0) {
+							echo "<h3>please check if the database connection succeeded!</h3>";
+							echo "<hr>";
+							echo "<p><button>check database connection!</button></p>";
+							echo "<p><button onclick=\"window.location.href='?step=1'\">back</button><button onclick=\"window.location.href='?step=3'\">next</button></p>";
+						} else {
+							echo "<h3>error: one of the forms was empty or not filled in!</h3>";
+							echo "<hr>";
+							echo "<p class=\"error\">you get redirected back to the previous page in 10 seconds!</p>";
+							header("refresh:10;URL=?step=1");
+						}
 					break;
 					case "3":
 						echo "<h3>please create administrator account!</h3>";
@@ -133,6 +140,11 @@ END OF TERMS AND CONDITIONS</textarea></p>";
 			font-family:helvetica, verdana;
 			font-size:8pt;
 			color:lightblue;
+		}
+
+		.error {
+			color:red;
+			font-weight:bold;
 		}
 
 		.center {
