@@ -17,7 +17,7 @@ limitations under the License.
 use complicatednetworkmeter\api;
 
 namespace complicatednetworkmeter {
-	
+
 	if(!file_exists("config.php")) {
 		header ("Location: install/index.php");
 	} else {
@@ -54,8 +54,7 @@ namespace complicatednetworkmeter {
 				if($monitor instanceof MonitorAPI) {
 
 					echo "<div class=\"monitorblock\">";
-					
-					echo "	<h4 style=\"" . ($monitor->isPINGActive() ? "background:green" : "background:red") . "\"/>Service: ".$monitor->getName()."</h4>";
+					echo "	<h4 style=\"" . (($monitor->isPINGActive() && $monitor->isDNSActive()) ? "background:green" : "background:red") . "\"/>Service: ".$monitor->getName()."</h4>";
 					echo "	<div class=\"DNSBLOCK\" style=\"". $monitor->isDNSActive() ? "background:green" : "background:red" ."\"/>DNS failed?: ". $monitor->isDNSActive() ? "the dns works" : "the dns failed"."</div>";
 					echo "	<div class=\"PINGBLOCK\" style=\"". $monitor->isPINGActive() ? "background:green" : "background:red" ."\"/>PING failed?: ". $monitor->isPINGActive() ? "the ping request works" : "the ping request showed indication of packet loss"."</div>";
 					echo "</div>";
