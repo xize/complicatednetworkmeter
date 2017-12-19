@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-namespace complicatednetworkmeter\install {
+#namespace complicatednetworkmeter\install {
 
 	class Install {
 
@@ -25,7 +25,7 @@ namespace complicatednetworkmeter\install {
 				echo "<h3>welcome to complicatednetworkmeter please accept the terms!</h3>";
 				echo "<hr>";
 				echo "<p><textarea rows=\"20\" cols=\"120\"/>
-copyright Guido Lucassen 2017
+Copyright Guido Lucassen 2017
 
 Apache License
 
@@ -117,9 +117,66 @@ END OF TERMS AND CONDITIONS</textarea></p>";
 			echo "</div>";
 		}
 	}
+#}
+	//TODO: make it work with namespaces by making this route script into a library.
+?>
 
-	//TODO: build html document around this.
-	$install = new Install();
-	$install->getContent();
+<!DOCTYPE html>
+<head>
+	<title>complicatednetworkmeter installer</title>
+	<style>
+		body {
+			width:100%;
+			height:100%;
+			margin:0;
+			padding:0;
+			font-family:helvetica, verdana;
+			font-size:8pt;
+			color:lightblue;
+		}
 
-}	
+		.center {
+			margin-left: auto;
+			margin-right: auto;
+			text-align:center;
+		}
+
+		h3 {
+			font-size:16pt;
+		}
+
+		button {
+			border-radius:8px;
+			background:lightblue;
+			color:white;
+			padding:10px;
+			border:none;
+			cursor:pointer;
+			margin:3px;
+		}
+
+		button:hover {
+			background:; blue;
+		}
+
+		textarea {
+			margin-top:20px;
+			font-family: helvetica, verdana;
+			font-size:8pt;
+		}
+
+		hr {
+			border:3px dotted lightblue;
+		}
+
+	</style>
+</head>
+	<body>
+		<div class="center">
+			<?php
+				$content = new Install();
+				$content->getContent();
+			 ?>
+		</div>
+	</body>
+</html>
