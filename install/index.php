@@ -178,5 +178,7 @@ END OF TERMS AND CONDITIONS</textarea></p>";
 				$content->getContent();
 			 ?>
 		</div>
+		<hr>
+		<div class="center"/>&copy; complicatednetworkmeter CMS all rights reserved 2017-2018 | written by Guido Lucassen</div>
 	</body>
 </html>
