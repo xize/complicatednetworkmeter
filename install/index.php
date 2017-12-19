@@ -22,7 +22,7 @@ limitations under the License.
 		public function getContent() {
 			echo "<div class=\"content\"/>";
 			if(!isset($_GET['step'])) {
-				echo "<h3>welcome to complicatednetworkmeter please accept the terms!</h3>";
+				echo "<h3>welcome to CNM please accept the terms!</h3>";
 				echo "<hr>";
 				echo "<p><textarea rows=\"20\" cols=\"120\"/>
 Copyright Guido Lucassen 2017
