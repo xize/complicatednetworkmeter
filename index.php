@@ -21,7 +21,7 @@ namespace complicatednetworkmeter {
 
 <!DOCTYPE html>
 <head>
-    <title></title>
+    <title>CNM - complicatednetworkmeter</title>
     <style>
         body {
             width:100%;
@@ -110,6 +110,7 @@ namespace complicatednetworkmeter {
     <body>
 
         <div class="container center"/>
+            <h1>CNM global service status:</h1>
             <?php 
                 $content = new BaseContent();
                 $content->getContent();

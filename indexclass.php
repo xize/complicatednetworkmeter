@@ -34,9 +34,15 @@ namespace complicatednetworkmeter {
 				# DEBUG TEST
 				#/*
 				$test = array(
-					new MonitorAPI(array("pfsense", "up", "down")),
-					new MonitorAPI(array("pihole", "up", "up")),
-					new MonitorAPI(array("router", "down", "down"))
+					new MonitorAPI(array("vpn1", "up", "down")),
+					new MonitorAPI(array("pfsense1", "up", "down")),
+					new MonitorAPI(array("pihole1", "up", "up")),
+					new MonitorAPI(array("router1", "down", "down")),
+
+					new MonitorAPI(array("vpn2", "down", "down")),
+					new MonitorAPI(array("pfsense2", "up", "up")),
+					new MonitorAPI(array("pihole2", "up", "down")),
+					new MonitorAPI(array("router2", "up", "up"))
 				);
 
 
@@ -97,10 +103,13 @@ namespace complicatednetworkmeter {
 						//add type cast via instanceof, since PHP doesn't have JIT some editors can recognize the MonitorAPI calls via instanceof.
 						if($monitor instanceof MonitorAPI) {
 
-							echo "<div class=\"monitorblock\">";
-							echo "	<h4 style=\"" . (($monitor->isPINGActive() && $monitor->isDNSActive()) ? "background:green" : "background:red") . "\"/>Service: ".$monitor->getName()."</h4>";
-							echo "	<div class=\"DNSBLOCK\" style=\"". $monitor->isDNSActive() ? "background:green" : "background:red" ."\"/>DNS failed?: ". $monitor->isDNSActive() ? "the dns works" : "the dns failed"."</div>";
-							echo "	<div class=\"PINGBLOCK\" style=\"". $monitor->isPINGActive() ? "background:green" : "background:red" ."\"/>PING failed?: ". $monitor->isPINGActive() ? "the ping request works" : "the ping request showed indication of packet loss"."</div>";
+							$status = ($monitor->isDNSActive() && $monitor->isPINGActive());
+							echo "<div style=\"". ($status ? "background:green" : "background:red") ."\" class=\"monitorblock\"/>";
+							echo "<button class=\"close\" onclick=\"windowclose(this)\"/>x</button>";
+							echo "<div class=\"clear\"/></div>";
+							echo "	<h4>service: ". $monitor->getName() ."</h4>";
+							echo "	<p>DNS status: ".($monitor->isDNSActive() ? "OK" : "ERROR")."</p>";
+							echo "	<p>PING status: ".($monitor->isPINGActive() ? "OK" : "ERROR")."</p>";
 							echo "</div>";
 						}
 					}
