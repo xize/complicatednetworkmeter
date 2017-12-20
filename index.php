@@ -24,10 +24,6 @@ namespace complicatednetworkmeter {
     <title>CNM - complicatednetworkmeter</title>
     <style>
         body {
-            width:100%;
-            height:100%;
-            margin:0;
-            padding:0;
             font-family:helvetica, verdana;
             font-size:8pt;
             color:lightblue;
@@ -44,6 +40,12 @@ namespace complicatednetworkmeter {
             text-align:center;
         }
 
+        .center10pr {
+            width:470px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
         h3 {
             font-size:16pt;
         }
@@ -54,11 +56,14 @@ namespace complicatednetworkmeter {
         }
 
         .monitorblock {
-            display:block;
             float:left;
-            width:30%;
-            margin:30px;
+            width:200px;
+            height:200px;
+            margin-right:30px;
+            margin-top:30px;
             color:white;
+            border-radius:8px;
+            box-shadow: 0px 8px 0px 0px darkgray;
         }
 
         .container {

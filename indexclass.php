@@ -45,7 +45,7 @@ namespace complicatednetworkmeter {
 					new MonitorAPI(array("router2", "up", "up"))
 				);
 
-
+				echo "<div class=\"center10pr\"/>";
 				foreach($test as $monitor) {
 					if($monitor instanceof MonitorAPI) {
 						/*
@@ -57,15 +57,16 @@ namespace complicatednetworkmeter {
 						*/
 
 						$status = ($monitor->isDNSActive() && $monitor->isPINGActive());
-						echo "<div style=\"". ($status ? "background:green" : "background:red") ."\" class=\"monitorblock\"/>";
-						echo "<button class=\"close\" onclick=\"windowclose(this)\"/>x</button>";
-						echo "<div class=\"clear\"/></div>";
-						echo "	<h4>service: ". $monitor->getName() ."</h4>";
-						echo "	<p>DNS status: ".($monitor->isDNSActive() ? "OK" : "ERROR")."</p>";
-						echo "	<p>PING status: ".($monitor->isPINGActive() ? "OK" : "ERROR")."</p>";
-						echo "</div>";
+						echo "	<div style=\"". ($status ? "background:green" : "background:red") ."\" class=\"monitorblock\"/>";
+						echo "	<button class=\"close\" onclick=\"windowclose(this)\"/>x</button>";
+						echo "	<div class=\"clear\"/></div>";
+						echo "		<h4>service: ". $monitor->getName() ."</h4>";
+						echo "		<p>DNS status: ".($monitor->isDNSActive() ? "OK" : "ERROR")."</p>";
+						echo "		<p>PING status: ".($monitor->isPINGActive() ? "OK" : "ERROR")."</p>";
+						echo "	</div>";
 					}
 				}
+				echo "</div>";
 				return;
 				#*/
 				# END DEBUG TEST
