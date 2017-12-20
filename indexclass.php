@@ -34,9 +34,9 @@ namespace complicatednetworkmeter {
 				# DEBUG TEST
 				#/*
 				$test = array(
-							new MonitorAPI(array("pfsense", "up", "down")),
-							new MonitorAPI(array("pihole", "up", "up")),
-							new MonitorAPI(array("router", "down", "down"))
+					new MonitorAPI(array("pfsense", "up", "down")),
+					new MonitorAPI(array("pihole", "up", "up")),
+					new MonitorAPI(array("router", "down", "down"))
 				);
 
 
