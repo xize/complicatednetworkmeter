@@ -55,7 +55,7 @@ namespace complicatednetworkmeter\install {
                         }
                     break;
                     case "3":
-                        echo "<h3>please create administrator account!</h3>";
+                        echo "<h3>please create an administrator account!</h3>";
                         echo "<hr>";
                         echo "<form name=\"account\" method=\"post\"/>";
                         echo "  <p>username: <input type=\"text\" name=\"user\" value=\"username\"/></p>";
