@@ -49,25 +49,36 @@ namespace complicatednetworkmeter {
         }
 
         h4 {
-            padding:8px;
             color:white;
+
         }
 
         .monitorblock {
             display:block;
             float:left;
-            padding-right:50px;
-            width:100%;
-            height:80px;
-            margin-left:auto;
-            margin-right:auto;
+            width:30%;
+            margin:30px;
+            color:white;
         }
 
         .container {
             float:left;
             width:100%;
             height:100%;
-            overflow:hidden;
+        }
+
+        .clear {
+            clear:both;
+        }
+
+        .close {
+            float:right;
+            cursor: pointer;
+            color:white;
+            font-size:14pt;
+            font-weight:bold;
+            margin:8px;
+            clear:both;
         }
 
         button {
@@ -97,12 +108,18 @@ namespace complicatednetworkmeter {
     </style>
 </head>
     <body>
+
         <div class="container center"/>
             <?php 
                 $content = new BaseContent();
                 $content->getContent();
             ?>
         </div>
+        <script>
+            function windowclose(d) {
+                d.parentElement.style.display = 'none';
+            }
+        </script>
     </body>
 </html>
 <?php

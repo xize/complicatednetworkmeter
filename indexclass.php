@@ -42,10 +42,21 @@ namespace complicatednetworkmeter {
 
 				foreach($test as $monitor) {
 					if($monitor instanceof MonitorAPI) {
+						/*
 						echo "<div class=\"monitorblock\">";
 						echo "	<h4 style=\"" . (($monitor->isPINGActive() && $monitor->isDNSActive()) ? "background:green" : "background:red") . "\"/>Service: ".$monitor->getName()."</h4>";
 						echo "	<div class=\"DNSBLOCK\" style=\"". $monitor->isDNSActive() ? "background:green" : "background:red" ."\"/>DNS failed?: ". $monitor->isDNSActive() ? "the dns works" : "the dns failed"."</br></div>";
 						echo "	<div class=\"PINGBLOCK\" style=\"". $monitor->isPINGActive() ? "background:green" : "background:red" ."\"/>PING failed?: ". $monitor->isPINGActive() ? "the ping request works" : "the ping request showed indication of packet loss"."</div>";
+						echo "</div>";
+						*/
+
+						$status = ($monitor->isDNSActive() && $monitor->isPINGActive());
+						echo "<div style=\"". ($status ? "background:green" : "background:red") ."\" class=\"monitorblock\"/>";
+						echo "<button class=\"close\" onclick=\"windowclose(this)\"/>x</button>";
+						echo "<div class=\"clear\"/></div>";
+						echo "	<h4>service: ". $monitor->getName() ."</h4>";
+						echo "	<p>DNS status: ".($monitor->isDNSActive() ? "OK" : "ERROR")."</p>";
+						echo "	<p>PING status: ".($monitor->isPINGActive() ? "OK" : "ERROR")."</p>";
 						echo "</div>";
 					}
 				}
