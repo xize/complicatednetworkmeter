@@ -17,7 +17,7 @@ limitations under the License.
 
 use complicatednetworkmeter;
 
-namespace complicatednetworkmeter\api {
+namespace complicatednetworkmeter {
 
 	$cfg = new Config();
 

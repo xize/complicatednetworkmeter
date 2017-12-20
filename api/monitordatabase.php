@@ -15,11 +15,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-use complicatednetworkmeter;
+namespace complicatednetworkmeter {
 
-namespace complicatednetworkmeter\api {
+	require_once("monitorapi.php");
 
-	protected class MonitorDatabase {
+	class MonitorDatabase {
 
 		/**
 		* Adds the data into the database, this will be updated once one of the devices hitted our url.
@@ -29,7 +29,7 @@ namespace complicatednetworkmeter\api {
 		* @param dns - the status of the dns server for this service
 		* @param ping - the status of the ping command being used by this service
 		*/
-		public void addToDatabase($name = "", $dns = false, $ping = false) { //add type check.
+		public function addToDatabase($name = "", $dns = false, $ping = false) { //add type check.
 			if(strlen($name) > 0) {
 				
 				$cfg = new Config();

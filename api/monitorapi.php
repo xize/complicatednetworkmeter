@@ -15,7 +15,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-namespace complicatednetworkmeter\api {
+namespace complicatednetworkmeter {
+
+	require_once("monitordatabase.php");
 
 	class MonitorAPI extends MonitorDatabase {
 
