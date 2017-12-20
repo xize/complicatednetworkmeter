@@ -21,12 +21,18 @@ namespace complicatednetworkmeter {
 
 	class BaseContent {
 
+
+		/**
+		* routes the user navigation as content.
+		*
+		* @author xize
+		*/
 		public function getContent() {
 
 			if(!file_exists("config.php")) {
 				
-				//$monitor = new MonitorAPI(array("testing", "up", "up"));
-			
+				# DEBUG TEST
+				#/*
 				$test = array(
 							new MonitorAPI(array("pfsense", "up", "down")),
 							new MonitorAPI(array("pihole", "up", "up")),
@@ -43,8 +49,10 @@ namespace complicatednetworkmeter {
 						echo "</div>";
 					}
 				}
-
-				#header ("Location: install/index.php");
+				return;
+				#*/
+				# END DEBUG TEST
+				header ("Location: install/index.php");
 			} else {
 				$cfg = new Config();
 				if($cfg->IsMonitor()) {
