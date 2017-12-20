@@ -19,6 +19,11 @@ namespace complicatednetworkmeter\install {
 
     class License {
 
+        /**
+        * returns the full license this software is licensed with.
+        *
+        * @author xize
+        */
         public function getLicenseAgreement() {
             return "
 Copyright Guido Lucassen 2017

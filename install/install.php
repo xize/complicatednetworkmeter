@@ -21,6 +21,11 @@ namespace complicatednetworkmeter\install {
 
     class Install {
 
+        /**
+        * returns the page routing and content for the installscript.
+        *
+        * @author xize
+        */
         public function getContent() {
             echo "<div class=\"content\"/>";
             if(!isset($_GET['step'])) {
