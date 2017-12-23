@@ -30,38 +30,6 @@ namespace complicatednetworkmeter {
 		public function getContent() {
 
 			if(!file_exists("config.php")) {
-				
-				# DEBUG TEST
-				#/*
-				$test = array(
-					new MonitorAPI(array("vpn1", "up", "down")),
-					new MonitorAPI(array("pfsense1", "up", "down")),
-					new MonitorAPI(array("pihole1", "up", "up")),
-					new MonitorAPI(array("router1", "down", "down")),
-
-					new MonitorAPI(array("vpn2", "down", "down")),
-					new MonitorAPI(array("pfsense2", "up", "up")),
-					new MonitorAPI(array("pihole2", "up", "down")),
-					new MonitorAPI(array("router2", "up", "up"))
-				);
-
-				echo "<div class=\"center10pr\"/>";
-				foreach($test as $monitor) {
-					if($monitor instanceof MonitorAPI) {
-						$status = ($monitor->isDNSActive() && $monitor->isPINGActive());
-						echo "	<div style=\"". ($status ? "background:green" : "background:red") ."\" class=\"monitorblock\"/>";
-						echo "	<button class=\"close\" onclick=\"windowclose(this)\"/>x</button>";
-						echo "	<div class=\"clear\"/></div>";
-						echo "		<h4>service: ". $monitor->getName() ."</h4>";
-						echo "		<p>DNS status: ".($monitor->isDNSActive() ? "OK" : "ERROR")."</p>";
-						echo "		<p>PING status: ".($monitor->isPINGActive() ? "OK" : "ERROR")."</p>";
-						echo "	</div>";
-					}
-				}
-				echo "</div>";
-				return;
-				#*/
-				# END DEBUG TEST
 				header ("Location: install/index.php");
 			} else {
 				$cfg = new Config();
@@ -91,6 +59,7 @@ namespace complicatednetworkmeter {
 
 					//represent data from the database
 
+					echo "<div class=\"center10pr\"/>";
 					foreach($monitordata as $monitor) {
 				
 						//add type cast via instanceof, since PHP doesn't have JIT some editors can recognize the MonitorAPI calls via instanceof.
@@ -105,6 +74,7 @@ namespace complicatednetworkmeter {
 							echo "	</div>";
 						}
 					}
+					echo "</div>";
 				} else {
 					//retrieves the main monitor node from the config
 				
