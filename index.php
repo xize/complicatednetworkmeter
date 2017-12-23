@@ -16,7 +16,7 @@ limitations under the License.
 */
 
 namespace complicatednetworkmeter {
-    require_once("indexclass.php");
+    require_once("basecontent.php");
 ?>
 
 <!DOCTYPE html>
