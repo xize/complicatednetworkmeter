@@ -22,57 +22,7 @@ require_once("install.php"); //TODO: figuring out why it fails to find the class
 <!DOCTYPE html>
 <head>
 	<title>complicatednetworkmeter installer</title>
-	<style>
-		body {
-			width:100%;
-			height:100%;
-			margin:0;
-			padding:0;
-			font-family:helvetica, verdana;
-			font-size:8pt;
-			color:lightblue;
-		}
-
-		.error {
-			color:red;
-			font-weight:bold;
-		}
-
-		.center {
-			margin-left: auto;
-			margin-right: auto;
-			text-align:center;
-		}
-
-		h3 {
-			font-size:16pt;
-		}
-
-		button {
-			border-radius:8px;
-			background:lightblue;
-			color:white;
-			padding:10px;
-			border:none;
-			cursor:pointer;
-			margin:3px;
-		}
-
-		button:hover {
-			background:; blue;
-		}
-
-		textarea {
-			margin-top:20px;
-			font-family: helvetica, verdana;
-			font-size:8pt;
-		}
-
-		hr {
-			border:3px dotted lightblue;
-		}
-
-	</style>
+	<link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 	<body>
 		<div class="center">
