@@ -80,7 +80,7 @@ namespace complicatednetworkmeter {
 
 					$monitordata = array();
 
-					foreach($assoc as $data) {
+					foreach($data as $assoc) {
 						$name = $assoc['name'];
 						$dns = $assoc['dns'];
 						$ping = $assoc['ping'];
@@ -91,7 +91,7 @@ namespace complicatednetworkmeter {
 
 					//represent data from the database
 
-					foreach($monitor as $monitordata) {
+					foreach($monitordata as $monitor) {
 				
 						//add type cast via instanceof, since PHP doesn't have JIT some editors can recognize the MonitorAPI calls via instanceof.
 						if($monitor instanceof MonitorAPI) {
