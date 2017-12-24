@@ -67,7 +67,7 @@ namespace complicatednetworkmeter\install {
                             echo "<p>testing connection...</p>";
                             $con = $this->testConnection("localhost", $_POST['dbuser'], $_POST['dbpasswd'], $_POST['dbname']);
                             if($con) {
-                                setcookie("sqlsucceed", +3600);
+                                setcookie("sqlsucceed", 1, +3600);
                                 //create database...
                                 echo $con ? "<p style=\"color:green\">[+] the connection was successfull</p>" : "<p style=\"color:red\">[x] the connection failed!</p>";
                                 echo "<p>creating database now...</p>";

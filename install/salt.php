@@ -16,7 +16,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-namespace complicatednetworkmeter {
+#namespace complicatednetworkmeter\install {
+
     class Salt {
 
         private static $generator;
@@ -66,4 +67,4 @@ namespace complicatednetworkmeter {
             $this->shuffle($array);
         }
     }
-}
+#}
