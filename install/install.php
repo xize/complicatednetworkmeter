@@ -21,6 +21,10 @@ namespace complicatednetworkmeter\install {
 
     class Install {
 
+        private $duser;
+        private $dpass;
+        private $db;
+
         /**
         * returns the page routing and content for the installscript.
         *
@@ -43,7 +47,7 @@ namespace complicatednetworkmeter\install {
                 switch($_GET['step']) {
                     case "1":
                         setcookie("agreed", +3600);
-                        if(isset($_COOKIE['dbuser'])) {
+                        if(isset($_COOKIE['sqlsucceed'])) {
                             header("Location: ?step=3");
                         }
                         echo "<h3>please fill in your database settings!</h3>";
@@ -62,17 +66,29 @@ namespace complicatednetworkmeter\install {
                             echo "testing connection...";
                             $con = $this->testConnection("localhost", $_POST['dbuser'], $_POST['dbpasswd'], $_POST['dbname']);
                             if($con) {
-                                //TODO: checking documentation if this is the correct way of cookies with values...
-                                setcookie("dbuser", +3600);
-                                $_COOKIE['dbuser'] = $_POST['dbuser'];
-                                setcookie("dbpasswd", +3600);
-                                $_COOKIE['dbpasswd'] = $_POST['dbpasswd'];
-                                setcookie("dbname", +3600);
-                                $_COOKIE['dbname'] = $_POST['dbname'];
+                                setcookie("sqlsucceed", +3600);
+                                //create database...
+                                echo "creating database now...";
+                                if($this->createDatabase("localhost", $_POST['dbuser'], $_POST['dbpasswd'], $_POST['dbname'])) {
+                                    echo "[+] database created with success!";
+                                    if($this->addTables("localhost", $_POST['dbuser'], $_POST['dbpasswd'], $_POST['dbname'])) {
+                                        echo "[+] tables are successfully created!";
+                                    } else {
+                                        echo "[x] failed to add tables!";
+                                        unset($_COOKIE['sqlsucceed']);
+                                    }
+                                } else {
+                                    echo "[x] failed to create database!";
+                                    unset($_COOKIE['sqlsucceed']);
+                                }
+                                //end creating database
+
+                                //no need to use sessions here we store the values in local variables.
+                                $this->duser = $_POST['dbuser'];
+                                $this->dpass = $_POST['dbpasswd'];
+                                $this->db = $_POST['dbname'];
                             } else {
-                                unset($_COOKIE['dbuser']);
-                                unset($_COOKIE['dbpasswd']);
-                                unset($_COOKIE['dbname']);
+                                unset($_COOKIE['sqlsucceed']);
                             }
                             echo $con ? "the connection was successfull" : " the connection failed.";
                             echo "<p><button onclick=\"window.location.href='?step=1'\">back</button>". ($con ? "<button onclick=\"window.location.href='?step=3'\"/>next</button>" : "")."</p>";
@@ -82,7 +98,7 @@ namespace complicatednetworkmeter\install {
                         }
                     break;
                     case "3":
-                        if(!isset($_COOKIE['dbuser'])) {
+                        if(!isset($_COOKIE['sqlsucceed'])) {
                             $this->showError("no cookies found!", "you get redirected back to the previous page in 10 seconds!");
                             header("refresh: 10;URL=index.php");
                             return;
@@ -109,11 +125,44 @@ namespace complicatednetworkmeter\install {
         *
         * @author xize
         */
-        public function testConnection($network, $user, $password, $db) {
-            if(mysqli_connect($network, $user, $password,$db)) {
+        public function testConnection($network, $user, $password) {
+            if(mysqli_connect($network, $user, $password)) {
                 return true;
             }
             return false;
+        }
+
+        /**
+        * creates the database specified on the credentials given in
+        *
+        * @author xize
+        */
+        public function createDatabase($network, $user, $password, $db) {
+            $sql = new mysqli($network, $user, $password, $db);
+            $stmt = $sql->prepare("CREATE DATABASE IF NOT EXISTS " . $db . "");
+            $stmt->execute();
+            if(!mysql_errno()) {
+                return true;
+            }
+            return false;
+        }
+
+        /**
+        * creates the tables in the new database
+        *
+        * @author xize
+        */
+        public function addTables($network, $user, $password, $db) {
+            $sql = new mysqli($network, $user, $password, $db);
+            $stmt = $sql->prepare("
+                CREATE TABLE IF NOT EXISTS `Monitor` (
+                    `id` int(254) NOT NULL AUTO_INCREMENT,
+                    `name` varchar(100) NOT NULL,
+                    `dns`  varchar(8) NOT NULL,
+                    `ping` varchar(8) NOT NULL,
+                    PRIMARY KEY(`id`)
+                )");
+            $stmt->execute();
         }
 
         /**
