@@ -17,6 +17,7 @@ limitations under the License.
 
 namespace complicatednetworkmeter {
     require_once("basecontent.php");
+    $content = new BaseContent();
 ?>
 
 <!DOCTYPE html>
@@ -28,8 +29,7 @@ namespace complicatednetworkmeter {
 
         <div class="container center"/>
             <h1>CNM global service status:</h1>
-            <?php 
-                $content = new BaseContent();
+            <?php
                 $content->getContent();
             ?>
         </div>
