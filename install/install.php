@@ -30,7 +30,9 @@ namespace complicatednetworkmeter\install {
             echo "<div class=\"content\"/>";
             if(!isset($_GET['step'])) {
                 if(isset($_COOKIE['agreed'])) {
-                    header("Location: ?step=1");
+                    $this->showError("License was already agreed! :D", "you already agreed to the license, redirecting in 5 seconds!");
+                    header("refresh:5;URL=?step=1");
+                    return;
                 }
                 echo "<h3>welcome to CNM please accept the terms!</h3>";
                 echo "<hr>";
@@ -50,7 +52,7 @@ namespace complicatednetworkmeter\install {
                         echo "  <p>db username: <input type=\"text\" name=\"dbuser\"/></p>";
                         echo "  <p>db password: <input type=\"password\" name=\"dbpasswd\"/></p>";
                         echo "  <p>database name: <input type=\"text\" name=\"dbname\"/></p>";
-                        echo "<p><button onclick=\"window.location.href='?step=index'\")\">back</button><button type=\"submit\">next</button></p>";
+                        echo "<p><button onclick=\"window.location.href='index.php'\")\">back</button><button type=\"submit\">next</button></p>";
                         echo "</form>";
                     break;
                     case "2":
@@ -75,17 +77,13 @@ namespace complicatednetworkmeter\install {
                             echo $con ? "the connection was successfull" : " the connection failed.";
                             echo "<p><button onclick=\"window.location.href='?step=1'\">back</button>". ($con ? "<button onclick=\"window.location.href='?step=3'\"/>next</button>" : "")."</p>";
                         } else {
-                            echo "<h3>error: one of the forms was empty or not filled in!</h3>";
-                            echo "<hr>";
-                            echo "<p class=\"error\">you get redirected back to the previous page in 10 seconds!</p>";
+                            $this->showError("one of the forms was empty or not filled in!", "you get redirected back to the previous page in 10 seconds!");
                             header("refresh:10;URL=?step=1");
                         }
                     break;
                     case "3":
                         if(!isset($_COOKIE['dbuser'])) {
-                            echo "<h3>error: no cookies found!</h3>";
-                            echo "<hr>";
-                            echo "<p class=\"error\">you get redirected back to the previous page in 10 seconds!</p>";
+                            $this->showError("no cookies found!", "you get redirected back to the previous page in 10 seconds!");
                             header("refresh: 10;URL=index.php");
                             return;
                         }
@@ -116,6 +114,17 @@ namespace complicatednetworkmeter\install {
                 return true;
             }
             return false;
+        }
+
+        /**
+        * formats a error
+        *
+        * @author xize
+        */
+        public function showError($title, $text) {
+            echo "<h3>error: ". $title ."</h3>";
+            echo "<hr>";
+            echo "<p class=\"error\">" . $text . "</p>";
         }
     }
 }
