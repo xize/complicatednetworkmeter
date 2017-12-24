@@ -18,6 +18,7 @@ limitations under the License.
 namespace complicatednetworkmeter\install {
 
     require_once("license.php");
+    require_once("salt.php");
 
     class Install {
 
@@ -163,7 +164,37 @@ namespace complicatednetworkmeter\install {
                     PRIMARY KEY(`id`),
                     KEY `name` (`name`)
                 )");
-            return $stmt->execute();
+            $stmt2 = $sql->prepare("
+                CREATE TABLE IF NOT EXISTS `users` (
+                    `id` int(254) NOT NULL AUTO_INCREMENT,
+                    `name` varchar(100) NOT NULL,
+                    `password`  varchar(100) NOT NULL,
+                    PRIMARY KEY(`id`),
+                    KEY `name` (`name`)
+                )");
+            return $stmt->execute() && $stmt2->execute();
+        }
+
+        public function createUser($user, $password) {
+            $sql = new \mysqli("localhost", $this->duser, $this->dpass, $this->db);
+            $stmt = $sql->prepare("INSERT INTO users(name, password) VALUES(?, ?)");
+            
+            //first lets salt the password to somehting magic and uncrackable.
+            $salted = Salt::getGenerator()->salt($password, 2048);
+
+            ///now lets encrypt it by AES-256-CBC
+
+            $ivlength = openssl_cipher_iv_length($cipher="AES-256-CBC");
+            $iv = openssl_random_pseudo_bytes($ivlength);
+            $encrypted = openssl_encrypt($salted, $cipher, $options=OPENSSL_RAW_DATA, $iv);
+            $hmac = hash_hmac('sha256', $encrypted, true);
+            
+            //now compress the encrypted password by base64
+
+            $finalpass = base64_encode($iv.$hmac.$encrypted);
+
+            $stmt->bind("ss", $user, $finalpass);
+            var_dump($stmt->execute());
         }
 
         /**
