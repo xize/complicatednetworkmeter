@@ -29,6 +29,9 @@ namespace complicatednetworkmeter\install {
         public function getContent() {
             echo "<div class=\"content\"/>";
             if(!isset($_GET['step'])) {
+                if(isset($_COOKIE['agreed'])) {
+                    header("Location: ?step=1");
+                }
                 echo "<h3>welcome to CNM please accept the terms!</h3>";
                 echo "<hr>";
                 $license = new License();
@@ -37,6 +40,10 @@ namespace complicatednetworkmeter\install {
             } else {
                 switch($_GET['step']) {
                     case "1":
+                        setcookie("agreed", +3600);
+                        if(isset($_COOKIE['dbuser'])) {
+                            header("Location: ?step=3");
+                        }
                         echo "<h3>please fill in your database settings!</h3>";
                         echo "<hr>";
                         echo "<form name=\"dbsettings\" method=\"post\" action=\"?step=2\"/>";
@@ -50,8 +57,23 @@ namespace complicatednetworkmeter\install {
                         if(isset($_POST['dbuser']) && strlen($_POST['dbuser']) > 0 && isset($_POST['dbpasswd']) && strlen($_POST['dbpasswd']) > 0 && isset($_POST['dbname']) && strlen($_POST['dbname']) > 0) {
                             echo "<h3>please check if the database connection succeeded!</h3>";
                             echo "<hr>";
-                            echo "<p><button>check database connection!</button></p>";
-                            echo "<p><button onclick=\"window.location.href='?step=1'\">back</button><button onclick=\"window.location.href='?step=3'\">next</button></p>";
+                            echo "testing connection...";
+                            $con = $this->testConnection("localhost", $_POST['dbuser'], $_POST['dbpasswd'], $_POST['dbname']);
+                            if($con) {
+                                //TODO: checking documentation if this is the correct way of cookies with values...
+                                setcookie("dbuser", +3600);
+                                $_COOKIE['dbuser'] = $_POST['dbuser'];
+                                setcookie("dbpasswd", +3600);
+                                $_COOKIE['dbpasswd'] = $_POST['dbpasswd'];
+                                setcookie("dbname", +3600);
+                                $_COOKIE['dbname'] = $_POST['dbname'];
+                            } else {
+                                unset($_COOKIE['dbuser']);
+                                unset($_COOKIE['dbpasswd']);
+                                unset($_COOKIE['dbname']);
+                            }
+                            echo $con ? "the connection was successfull" : " the connection failed.";
+                            echo "<p><button onclick=\"window.location.href='?step=1'\">back</button>". ($con ? "<button onclick=\"window.location.href='?step=3'\"/>next</button>" : "")."</p>";
                         } else {
                             echo "<h3>error: one of the forms was empty or not filled in!</h3>";
                             echo "<hr>";
@@ -60,6 +82,13 @@ namespace complicatednetworkmeter\install {
                         }
                     break;
                     case "3":
+                        if(!isset($_COOKIE['dbuser'])) {
+                            echo "<h3>error: no cookies found!</h3>";
+                            echo "<hr>";
+                            echo "<p class=\"error\">you get redirected back to the previous page in 10 seconds!</p>";
+                            header("refresh: 10;URL=index.php");
+                            return;
+                        }
                         echo "<h3>please create a administrator account!</h3>";
                         echo "<hr>";
                         echo "<form name=\"account\" method=\"post\"/>";
@@ -75,6 +104,18 @@ namespace complicatednetworkmeter\install {
                 }
             } 
             echo "</div>";
+        }
+
+        /**
+        * returns true if the connection succeeded otherwise false.
+        *
+        * @author xize
+        */
+        public function testConnection($network, $user, $password, $db) {
+            if(mysqli_connect($network, $user, $password,$db)) {
+                return true;
+            }
+            return false;
         }
     }
 }
