@@ -63,22 +63,23 @@ namespace complicatednetworkmeter\install {
                         if(isset($_POST['dbuser']) && strlen($_POST['dbuser']) > 0 && isset($_POST['dbname']) && strlen($_POST['dbname']) > 0) {
                             echo "<h3>please check if the database connection succeeded!</h3>";
                             echo "<hr>";
-                            echo "testing connection...";
+                            echo "<p>testing connection...</p>";
                             $con = $this->testConnection("localhost", $_POST['dbuser'], $_POST['dbpasswd'], $_POST['dbname']);
                             if($con) {
                                 setcookie("sqlsucceed", +3600);
                                 //create database...
-                                echo "creating database now...";
+                                echo $con ? "<p style=\"color:green\">[+] the connection was successfull</p>" : "<p style=\"color:red\">[x] the connection failed!</p>";
+                                echo "<p>creating database now...</p>";
                                 if($this->createDatabase("localhost", $_POST['dbuser'], $_POST['dbpasswd'], $_POST['dbname'])) {
-                                    echo "[+] database created with success!";
+                                    echo "<p style=\"color:green\">[+] database created with success!</p>";
                                     if($this->addTables("localhost", $_POST['dbuser'], $_POST['dbpasswd'], $_POST['dbname'])) {
-                                        echo "[+] tables are successfully created!";
+                                        echo "<p style=\"color:green\">[+] tables are successfully created!</p>";
                                     } else {
-                                        echo "[x] failed to add tables!";
+                                        echo "<p style=\"color:red\">[x] failed to add tables!</p>";
                                         unset($_COOKIE['sqlsucceed']);
                                     }
                                 } else {
-                                    echo "[x] failed to create database!";
+                                    echo "<p style=\"color:red\">[x] failed to create database!</p>";
                                     unset($_COOKIE['sqlsucceed']);
                                 }
                                 //end creating database
@@ -88,10 +89,10 @@ namespace complicatednetworkmeter\install {
                                 $this->dpass = $_POST['dbpasswd'];
                                 $this->db = $_POST['dbname'];
                             } else {
+                                echo "<p style=\"color:red\">[x] unable to connect to the database!, please fill in your settings again</p>";
                                 unset($_COOKIE['sqlsucceed']);
                             }
-                            echo $con ? "the connection was successfull" : " the connection failed.";
-                            echo "<p><button onclick=\"window.location.href='?step=1'\">back</button>". ($con ? "<button onclick=\"window.location.href='?step=3'\"/>next</button>" : "")."</p>";
+                            echo "<p><button onclick=\"window.location.href='?step=1'\">back</button>". (isset($_COOKIE['sqlsucceed']) ? "<button onclick=\"window.location.href='?step=3'\"/>next</button>" : "")."</p>";
                         } else {
                             $this->showError("one of the forms was empty or not filled in!", "you get redirected back to the previous page in 10 seconds!");
                             header("refresh:10;URL=?step=1");
@@ -140,8 +141,7 @@ namespace complicatednetworkmeter\install {
         public function createDatabase($network, $user, $password, $db) {
             $sql = new \mysqli($network, $user, $password);
             $stmt = $sql->prepare("CREATE DATABASE IF NOT EXISTS " . $db . "");
-            $stmt->execute();
-            if(!mysql_errno()) {
+            if($stmt->execute()) {
                 return true;
             }
             return false;
@@ -155,14 +155,15 @@ namespace complicatednetworkmeter\install {
         public function addTables($network, $user, $password, $db) {
             $sql = new \mysqli($network, $user, $password, $db);
             $stmt = $sql->prepare("
-                CREATE TABLE IF NOT EXISTS `Monitor` (
+                CREATE TABLE IF NOT EXISTS `monitor` (
                     `id` int(254) NOT NULL AUTO_INCREMENT,
                     `name` varchar(100) NOT NULL,
                     `dns`  varchar(8) NOT NULL,
                     `ping` varchar(8) NOT NULL,
-                    PRIMARY KEY(`id`)
+                    PRIMARY KEY(`id`),
+                    KEY `name` (`name`)
                 )");
-            $stmt->execute();
+            return $stmt->execute();
         }
 
         /**
