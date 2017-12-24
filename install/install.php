@@ -138,7 +138,7 @@ namespace complicatednetworkmeter\install {
         * @author xize
         */
         public function createDatabase($network, $user, $password, $db) {
-            $sql = new Mysqli($network, $user, $password, $db);
+            $sql = new \mysqli($network, $user, $password);
             $stmt = $sql->prepare("CREATE DATABASE IF NOT EXISTS " . $db . "");
             $stmt->execute();
             if(!mysql_errno()) {
@@ -153,7 +153,7 @@ namespace complicatednetworkmeter\install {
         * @author xize
         */
         public function addTables($network, $user, $password, $db) {
-            $sql = new Mysqli($network, $user, $password, $db);
+            $sql = new \mysqli($network, $user, $password, $db);
             $stmt = $sql->prepare("
                 CREATE TABLE IF NOT EXISTS `Monitor` (
                     `id` int(254) NOT NULL AUTO_INCREMENT,
