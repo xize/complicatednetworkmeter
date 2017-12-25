@@ -82,19 +82,33 @@ namespace complicatednetworkmeter\install {
                                         echo "<p style=\"color:green\">[+] tables are successfully created!</p>";
                                     } else {
                                         echo "<p style=\"color:red\">[x] failed to add tables!</p>";
-                                        unset($_SESSION);
+                                        unset($_SESSION['network']);
+                                        unset($_SESSION['user']);
+                                        unset($_SESSION['password']);
+                                        unset($_SESSION['db']);
+                                        
                                         session_destroy();
                                     }
                                 } else {
                                     echo "<p style=\"color:red\">[x] failed to create database!</p>";
-                                    unset($_SESSION);
+                                    unset($_SESSION['network']);
+                                    unset($_SESSION['user']);
+                                    unset($_SESSION['password']);
+                                    unset($_SESSION['db']);    
                                     session_destroy();
                                 }
                                 //end creating database
                             } else {
                                 echo "<p style=\"color:red\">[x] unable to connect to the database!, please fill in your settings again</p>";
+                                    unset($_SESSION['network']);
+                                    unset($_SESSION['user']);
+                                    unset($_SESSION['password']);
+                                    unset($_SESSION['db']);    
+                                    session_destroy();
+
                             }
-                            echo "<p><button onclick=\"window.location.href='?step=1'\">back</button><button onclick=\"window.location.href='?step=3'\"/>next</button></p>";
+                            //TODO: figuring out why the 'next' button shows up and the back button disappears this is unresponsive behaviour
+                            echo "<p><button onclick=\"window.location.href='?step=1'\">back</button>".$con ? "<button onclick=\"window.location.href='?step=3'\"/>next</button>" : ""."</p>";
                         } else {
                             $this->showError("one of the forms was empty or not filled in!", "you get redirected back to the previous page in 10 seconds!");
                             header("refresh:10;URL=?step=1");
