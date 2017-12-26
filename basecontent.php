@@ -32,6 +32,12 @@ namespace complicatednetworkmeter {
 			if(!file_exists("config.php")) {
 				header ("Location: install/index.php");
 			} else {
+				
+				if(file_exists("install/index.php")) {
+					echo "<p class=\"error\">Hello, please remove the install directory before going futher!</p>";
+					return;
+				}
+
 				$cfg = new Config();
 				if($cfg->IsMonitor()) {
 					//register url listener which stores the latest activity
