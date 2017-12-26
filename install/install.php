@@ -107,7 +107,7 @@ namespace complicatednetworkmeter\install {
                                     session_destroy();
 
                             }
-                            if($con) {
+                            if(isset($_SESSION['network'])) {
                                 echo "<p><button onclick=\"window.location.href='?step=1'\">back</button><button onclick=\"window.location.href='?step=3'\"/>next</button></p>";
                             } else {
                                 echo "<p><button onclick=\"window.location.href='?step=1'\">back</button></p>";
