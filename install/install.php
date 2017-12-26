@@ -129,18 +129,28 @@ namespace complicatednetworkmeter\install {
                         echo "  <p>username: <input type=\"text\" name=\"cms_user\" value=\"username\"/></p>";
                         echo "  <p>password: <input type=\"password\" name=\"cms_password\" value=\"password\"/></p>";
                         echo "  <p>re-type password: <input type=\"password\" name=\"password2\" value=\"password\"/></p>";
+                        echo "  <p>is monitor?: <input type=\"checkbox\" name=\"monitor\"/></p>";
                         echo "<p><button onclick=\"window.location.href='?step=2'\">back</button><button type=\"submit\" onclick=\"window.location.href='?step=4'\">next</button></p></form>";
                     break;
                     case "4":
                         if(isset($_POST['cms_user']) && isset($_POST['cms_password'])) {
                             if($_POST['cms_password'] != $_POST['password2']) {
-                                showError("passwords did not match!", "you get redirected to the previous page over 5 seconds!");
+                                $this->showError("passwords did not match!", "you get redirected to the previous page over 5 seconds!");
                                 header("refresh:5;URL=?step=3");
                                 return;
                             }
+
+                            $this->createConfig();
+
                             echo "<h3>successfully created login information!</h3>";
                             echo "<hr>";
                             echo "<p>please click <a href=\"../admin.php\"/>here</a> to login to your admin panel!</p>";
+                            if($_POST['monitor']) {
+                                $_SESSION['ismonitor'] = true;
+                            } else {
+                                $_SESSION['ismonitor'] = false;
+                            }
+
                             $this->createUser($_SESSION['network'], $_SESSION['user'], $_SESSION['pass'], $_SESSION['db'], $_POST['cms_user'], $_POST['cms_password']);
                         } else {
                             showError("failed to create user empty forms!", "we redirect you to the previous page in 5 seconds!");
@@ -247,6 +257,101 @@ namespace complicatednetworkmeter\install {
             $hmac = hash_hmac('sha256', $encrypted, true);
             $finalpass = base64_encode($hmac.$encrypted);
             return $finalpass;
+        }
+
+        /**
+        * creates the configuration file for connection
+        *
+        * @author xize
+        */
+        public function createConfig() {
+
+            $file = fopen("../config.php", "w");
+            
+            $txt = "<?php
+/*
+Copyright 2017 Guido Lucassen
+
+Licensed under the Apache License, Version 2.0 (the \"License\");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an \"AS IS\" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+namespace complicatednetworkmeter {
+                    
+    private \$network;
+    private \$user;
+    private \$password;
+    private \$db;
+    private \$ismonitor;
+
+    class Config {
+
+        public function __construct() {
+            \$this->network = \"". $_SESSION['network'] ."\";
+            \$this->user = \"". $_SESSION['user'] ."\";
+            \$this->password = \"". $_SESSION['pass'] ."\";
+            \$this->db = \"". $_SESSION['db'] ."\";
+            \$this->ismonitor = \"". $_SESSION['ismonitor'] ."\";
+        }
+
+        /**
+        * returns the name of the network
+        *
+        * @author xize
+        */
+        public function getNetwork() {
+            return \$this->network;
+        }
+
+        /**
+        * returns the username for the database
+        *
+        * @author xize
+        */
+        public function getUser() {
+            return \$this->user;
+        }
+
+        /**
+        * returns the password for the database
+        *
+        * @author xize
+        */
+        public function getPassword() {
+            return \$this->password;
+        }
+
+        /**
+        * returns the name of the database
+        *
+        * @author xize
+        */
+        public function getDB() {
+            return \$this->db;
+        }
+
+        /**
+        * returns true if the server is an monitor or a slave.
+        *
+        * @author xize
+        */
+        public function isMonitor() {
+            return \$this->ismonitor;
+        }
+    }
+}";
+
+            fwrite($file, $txt);
+            fclose($file);
         }
     }
 }
