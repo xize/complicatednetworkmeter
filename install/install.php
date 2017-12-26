@@ -107,8 +107,11 @@ namespace complicatednetworkmeter\install {
                                     session_destroy();
 
                             }
-                            //TODO: figuring out why the 'next' button shows up and the back button disappears this is unresponsive behaviour
-                            echo "<p><button onclick=\"window.location.href='?step=1'\">back</button>".$con ? "<button onclick=\"window.location.href='?step=3'\"/>next</button>" : ""."</p>";
+                            if($con) {
+                                echo "<p><button onclick=\"window.location.href='?step=1'\">back</button><button onclick=\"window.location.href='?step=3'\"/>next</button></p>";
+                            } else {
+                                echo "<p><button onclick=\"window.location.href='?step=1'\">back</button></p>";
+                            }
                         } else {
                             $this->showError("one of the forms was empty or not filled in!", "you get redirected back to the previous page in 10 seconds!");
                             header("refresh:10;URL=?step=1");
