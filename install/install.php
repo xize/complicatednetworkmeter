@@ -129,7 +129,21 @@ namespace complicatednetworkmeter\install {
                         echo "  <p>username: <input type=\"text\" name=\"cms_user\" value=\"username\"/></p>";
                         echo "  <p>password: <input type=\"password\" name=\"cms_password\" value=\"password\"/></p>";
                         echo "  <p>re-type password: <input type=\"password\" name=\"password2\" value=\"password\"/></p>";
-                        echo "  <p>is monitor?: <input type=\"checkbox\" name=\"monitor\"/></p>";
+                        echo "  <p>is monitor?: <input type=\"checkbox\" id=\"monitor\" name=\"monitor\"/></p>";
+                        echo "  <p id=\"mainnode\">main node ip address: <input type=\"text\" name=\"mainnode\"/></p>";
+                        echo "
+                        <script>
+                                var e = document.getElementById('monitor');
+
+                                e.onclick = function() {
+                                    if(!e.checked) {
+                                        document.getElementById('mainnode').hidden = false;
+                                    } else {
+                                        document.getElementById('mainnode').hidden = true;
+                                    }
+                                }
+                        </script>";
+
                         echo "<p><button onclick=\"window.location.href='?step=2'\">back</button><button type=\"submit\" onclick=\"window.location.href='?step=4'\">next</button></p></form>";
                     break;
                     case "4":
