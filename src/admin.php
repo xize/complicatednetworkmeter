@@ -27,7 +27,7 @@ namespace complicatednetworkmeter {
         *
         * @author xize
         */
-        function isLoggedIn() {
+        public function isLoggedIn() {
             if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == 1) {
                 return true;
             }
@@ -39,7 +39,7 @@ namespace complicatednetworkmeter {
         *
         * @author xize
         */
-        function updateUsername($oldname, $username) {
+        public function updateUsername($oldname, $username) {
             $cfg = new \Config();
             if($cfg instanceof Config) {
                $sql = new mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB()); 
@@ -55,7 +55,7 @@ namespace complicatednetworkmeter {
         *
         * @author xize
         */
-        function updatePassword($password) {
+        public function updatePassword($password) {
 
         }
 
@@ -64,7 +64,7 @@ namespace complicatednetworkmeter {
         *
         * @author xize
         */
-        function getAllDevices() {
+        public function getAllDevices() {
             
         }
 
@@ -73,7 +73,7 @@ namespace complicatednetworkmeter {
         *
         * @author xize
         */
-        function getDeviceByName($name) {
+        public function getDeviceByName($name) {
 
         }
 
@@ -82,7 +82,7 @@ namespace complicatednetworkmeter {
         *
         * @author xize
         */
-        function disableDevice($name) {
+        public function disableDevice($name) {
 
         }
 
@@ -91,7 +91,7 @@ namespace complicatednetworkmeter {
         *
         * @author xize
         */
-        function removeDevice($name) {
+        public function removeDevice($name) {
 
         }
 
