@@ -225,7 +225,6 @@ namespace complicatednetworkmeter\install {
                     `name` varchar(100) NOT NULL,
                     `dns`  varchar(8) NOT NULL,
                     `ping` varchar(8) NOT NULL,
-                    `monitor` varchar(8) NOT NULL,
                     `disabled` varchar(8) NOT NULL,
                     PRIMARY KEY(`id`),
                     UNIQUE `monitor` (name),
@@ -236,6 +235,7 @@ namespace complicatednetworkmeter\install {
                     `id` int(254) NOT NULL AUTO_INCREMENT,
                     `name` varchar(100) NOT NULL,
                     `password`  varchar(100) NOT NULL,
+                    `monitor` varchar(8) NOT NULL,
                     PRIMARY KEY(`id`),
                     UNIQUE `users` (name),
                     KEY `name` (`name`)
