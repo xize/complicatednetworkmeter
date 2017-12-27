@@ -2,4 +2,4 @@
 cls
 title syncing to xampp....
 del C:\xampp\htdocs /r /f
-xcopy * C:\xampp\htdocs /i /s /d /y
+xcopy src\* C:\xampp\htdocs /i /s /d /y
