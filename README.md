@@ -9,4 +9,4 @@ if you choose for monitor it means your cms will be the main server where all th
 all the non monitors are the slaves and the machines you check the status on.  
 
 #### how to prevent use of malicious machines?
-once a machine has connected to our api url it will generate a private key with the client machine, only the client could know this key.
+once a machine has connected to our api url it will generate a private key with the client machine, only the client would know this key.
