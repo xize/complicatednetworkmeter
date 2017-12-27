@@ -111,6 +111,7 @@ namespace complicatednetworkmeter {
                 $stmt = $sql->prepare("SELECT * FROM monitor WHERE name=?");
                 $stmt->bind_param("s", $name);
                 $data = $stmt->execute();
+                $stmt->close();
                 $monitor = new MonitorAPI(array($data['name'], $data['dns'], $['ping']));
                 return $monitor;
             }
@@ -132,7 +133,15 @@ namespace complicatednetworkmeter {
         * @author xize
         */
         public function removeDevice($name) {
-
+            $cfg = new \Config();
+            if($cfg instanceof Config) {
+                $sql = new mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
+                $stmt = $sql->prepare("DELETE FROM monitor WHERE name=?");
+                $stmt->bind_param("s", $name);
+                $stmt->execute();
+                $stmt->close();
+            }
+            return false;
         }
 
         /**
