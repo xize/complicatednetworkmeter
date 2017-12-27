@@ -137,6 +137,24 @@ namespace complicatednetworkmeter {
         }
 
         /**
+        * returns true if the device is disabled, otherwise false
+        *
+        * @author xize
+        */
+        public function isDeviceDisabled($name) {
+            $cfg = new \Config();
+            if($cfg instanceof Config) {
+                $sql = new mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
+                $stmt = $sql->prepare("SELECT disabled FROM monitor WHERE name=?");
+                $stmt->bind_param("s", $name);
+                $bol = $stmt->execute();
+                $stmt->close();
+                return $bol;
+            }
+            return false;
+        }
+
+        /**
         * removes a device by name
         *
         * @author xize
