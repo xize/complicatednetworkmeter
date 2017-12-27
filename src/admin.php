@@ -112,7 +112,7 @@ namespace complicatednetworkmeter {
                 $stmt->bind_param("s", $name);
                 $data = $stmt->execute();
                 $stmt->close();
-                $monitor = new MonitorAPI(array($data['name'], $data['dns'], $['ping']));
+                $monitor = new MonitorAPI(array($data['name'], $data['dns'], $data['ping']));
                 return $monitor;
             }
             return null;
