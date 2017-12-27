@@ -124,7 +124,16 @@ namespace complicatednetworkmeter {
         * @author xize
         */
         public function disableDevice($name) {
-
+            $cfg = new \Config();
+            if($cfg instanceof Config) {
+                $sql = new mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
+                $stmt = $sql->prepare("UPDATE monitor WHERE name=? SET disabled=?");
+                $stmt->bind_param("ss", $name, "true");
+                $stmt->execute();
+                $stmt->close();
+                return true;
+            }
+            return false;
         }
 
         /**
