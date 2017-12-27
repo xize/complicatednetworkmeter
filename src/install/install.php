@@ -221,6 +221,7 @@ namespace complicatednetworkmeter\install {
             $stmt = $sql->prepare("
                 CREATE TABLE IF NOT EXISTS `monitor` (
                     `id` int(254) NOT NULL AUTO_INCREMENT,
+                    `date` varchar(8) NOT NULL,
                     `name` varchar(100) NOT NULL,
                     `dns`  varchar(8) NOT NULL,
                     `ping` varchar(8) NOT NULL,
