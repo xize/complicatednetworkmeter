@@ -15,6 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+use complicatednetworkmeter\install;
+
 namespace complicatednetworkmeter {
     session_start();
 
@@ -95,6 +97,20 @@ namespace complicatednetworkmeter {
 
         }
 
+        /**
+        * encrypts the password into something considered to be 'uncrackable'
+        *
+        * @author xize
+        */
+        private function encrypt($password) {
+            $salted = $salted = \Salt::getGenerator()->createSalt($password, 2048);
+            $ivlength = openssl_cipher_iv_length($cipher="AES-256-CBC");
+            $iv = openssl_random_pseudo_bytes($ivlength);
+            $encrypted = openssl_encrypt($salted, $cipher, $options=OPENSSL_RAW_DATA, $iv);
+            $hmac = hash_hmac('sha256', $encrypted, true);
+            $finalpass = base64_encode($hmac.$encrypted);
+            return $finalpass;
+        }
     }
 }
 
