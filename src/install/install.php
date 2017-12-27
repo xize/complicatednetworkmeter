@@ -203,7 +203,9 @@ namespace complicatednetworkmeter\install {
         public function createDatabase($network, $user, $password, $db) {
             $sql = new \mysqli($network, $user, $password);
             $stmt = $sql->prepare("CREATE DATABASE IF NOT EXISTS " . $db . "");
-            if($stmt->execute()) {
+            $bol = $stmt->execute();
+            $stmt->close();
+            if($bol) {
                 return true;
             }
             return false;
@@ -237,7 +239,9 @@ namespace complicatednetworkmeter\install {
                     UNIQUE `users` (name),
                     KEY `name` (`name`)
                 )");
-            return $stmt->execute() && $stmt2->execute();
+            $bol = $stmt->execute();
+            $bol2 = $stmt2->execute();
+            return $bol && $bol2;
         }
 
         /**
@@ -251,6 +255,7 @@ namespace complicatednetworkmeter\install {
             $finalpass = $this->encrypt($cms_password);
             $stmt->bind_param("ss", $cms_user, $finalpass);
             $stmt->execute();
+            $stmt->close();
         }
 
         /**
