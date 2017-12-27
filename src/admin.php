@@ -28,7 +28,10 @@ namespace complicatednetworkmeter {
         * @author xize
         */
         function isLoggedIn() {
-
+            if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == 1) {
+                return true;
+            }
+            return false;
         }
 
         /**
@@ -36,8 +39,15 @@ namespace complicatednetworkmeter {
         *
         * @author xize
         */
-        function updateUsername($username) {
-
+        function updateUsername($oldname, $username) {
+            $cfg = new \Config();
+            if($cfg instanceof Config) {
+               $sql = new mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB()); 
+               $stmt = $sql->prepare("UPDATE name FROM users WHERE name=? SET name=?");
+               $stmt->bind_param("ss", $oldname, $username);
+               $stmt->execute();
+               $stmt->close();
+            }
         }
 
         /**
@@ -55,7 +65,7 @@ namespace complicatednetworkmeter {
         * @author xize
         */
         function getAllDevices() {
-
+            
         }
 
         /**
