@@ -241,6 +241,8 @@ namespace complicatednetworkmeter\install {
                 )");
             $bol = $stmt->execute();
             $bol2 = $stmt2->execute();
+            $stmt->close();
+            $stmt2->close();
             return $bol && $bol2;
         }
 
