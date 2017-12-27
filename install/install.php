@@ -147,11 +147,21 @@ namespace complicatednetworkmeter\install {
                         echo "<p><button onclick=\"window.location.href='?step=2'\">back</button><button type=\"submit\" onclick=\"window.location.href='?step=4'\">next</button></p></form>";
                     break;
                     case "4":
-                        if(isset($_POST['cms_user']) && isset($_POST['cms_password'])) {
+                        if(isset($_POST['cms_user']) && isset($_POST['cms_password']) && ($_POST['monitor'] || !$_POST['monitor'] && isset($_POST['mainnode']))) {
                             if($_POST['cms_password'] != $_POST['password2']) {
                                 $this->showError("passwords did not match!", "you get redirected to the previous page over 5 seconds!");
                                 header("refresh:5;URL=?step=3");
                                 return;
+                            }
+
+                            if($_POST['monitor']) {
+                                $_SESSION['ismonitor'] = true;
+                            } else {
+                                $_SESSION['ismonitor'] = false;
+                            }
+
+                            if(isset($_POST['mainnode'])) {
+                                $_SESSION['mainnode'] = $_POST['mainnode'];
                             }
 
                             $this->createConfig();
@@ -159,12 +169,6 @@ namespace complicatednetworkmeter\install {
                             echo "<h3>successfully created login information!</h3>";
                             echo "<hr>";
                             echo "<p>please click <a href=\"../admin.php\"/>here</a> to login to your admin panel!</p>";
-                            if($_POST['monitor']) {
-                                $_SESSION['ismonitor'] = true;
-                            } else {
-                                $_SESSION['ismonitor'] = false;
-                            }
-
                             $this->createUser($_SESSION['network'], $_SESSION['user'], $_SESSION['pass'], $_SESSION['db'], $_POST['cms_user'], $_POST['cms_password']);
                         } else {
                             showError("failed to create user empty forms!", "we redirect you to the previous page in 5 seconds!");
@@ -218,6 +222,7 @@ namespace complicatednetworkmeter\install {
                     `name` varchar(100) NOT NULL,
                     `dns`  varchar(8) NOT NULL,
                     `ping` varchar(8) NOT NULL,
+                    `monitor` varchar(8) NOT NULL,
                     PRIMARY KEY(`id`),
                     UNIQUE `monitor` (name),
                     KEY `name` (`name`)
@@ -306,6 +311,7 @@ namespace complicatednetworkmeter {
     private \$password;
     private \$db;
     private \$ismonitor;
+    private \$mainnode;
 
     class Config {
 
@@ -314,7 +320,8 @@ namespace complicatednetworkmeter {
             \$this->user = \"". $_SESSION['user'] ."\";
             \$this->password = \"". $_SESSION['pass'] ."\";
             \$this->db = \"". $_SESSION['db'] ."\";
-            \$this->ismonitor = \"". $_SESSION['ismonitor'] ."\";
+            \$this->ismonitor = ". (($_SESSION['ismonitor'] != null) ? "true" : "false") .";
+            \$this->mainnode = \"".$_SESSION['mainnode']."\";
         }
 
         /**
@@ -360,6 +367,15 @@ namespace complicatednetworkmeter {
         */
         public function isMonitor() {
             return \$this->ismonitor;
+        }
+
+        /**
+        * returns the main node ip address
+        *
+        * @author xize
+        */
+        public function getMainNode() {
+            return \$this->mainnode;
         }
     }
 }";
