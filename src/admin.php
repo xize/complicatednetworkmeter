@@ -78,7 +78,24 @@ namespace complicatednetworkmeter {
         * @author xize
         */
         public function getAllDevices() {
-            
+            $cfg = new \Config();
+            if($cfg instanceof Config) {
+                $sql = new mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
+                $stmt = $sql->prepare("SELECT * FROM monitor ORDER by date");
+                $rows = $stmt->execute();
+                $stmt->close();
+                
+                $devices = array();
+
+                foreach($rows as $row) {
+                    $name = $row['name'];
+                    $dns = $row['dns'];
+                    $ping = $row['ping'];
+                    $monitor = new MonitorAPI(array($name,$dns,$ping));
+                    array_push($devices, $monitor);
+                }
+                return $devices;
+            }
         }
 
         /**
