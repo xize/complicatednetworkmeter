@@ -16,8 +16,10 @@ limitations under the License.
 */
 
 use complicatednetworkmeter\install;
+use complicatednetworkmeter\api;
+use complicatednetworkmeter;
 
-namespace complicatednetworkmeter {
+namespace complicatednetworkmeter\admin {
     session_start();
 
     require_once("config.php");
@@ -43,8 +45,8 @@ namespace complicatednetworkmeter {
         */
         public function updateUsername($oldname, $username) {
             $cfg = new \Config();
-            if($cfg instanceof Config) {
-               $sql = new mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB()); 
+            if($cfg instanceof \Config) {
+               $sql = new \mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB()); 
                $stmt = $sql->prepare("UPDATE name FROM users WHERE name=? SET name=?");
                $stmt->bind_param("ss", $oldname, $username);
                $bol = $stmt->execute();
@@ -61,8 +63,8 @@ namespace complicatednetworkmeter {
         */
         public function updatePassword($username, $oldpassword, $password) {
             $cfg = new \Config();
-            if($cfg instanceof Config) {
-                $sql = new mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
+            if($cfg instanceof \Config) {
+                $sql = new \mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
                 $stmt = $sql->prepare("UPDATE password FROM users WHERE name=? AND password=? SET password=?");
                 $stmt->bind_param("sss", $username, $this->encrypt($oldpassword), $this->encrypt($password);
                 $bol = $stmt->execute();
@@ -79,8 +81,8 @@ namespace complicatednetworkmeter {
         */
         public function getAllDevices() {
             $cfg = new \Config();
-            if($cfg instanceof Config) {
-                $sql = new mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
+            if($cfg instanceof \Config) {
+                $sql = new \mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
                 $stmt = $sql->prepare("SELECT * FROM monitor ORDER by date");
                 $rows = $stmt->execute();
                 $stmt->close();
@@ -91,7 +93,7 @@ namespace complicatednetworkmeter {
                     $name = $row['name'];
                     $dns = $row['dns'];
                     $ping = $row['ping'];
-                    $monitor = new MonitorAPI(array($name,$dns,$ping));
+                    $monitor = new \MonitorAPI(array($name,$dns,$ping));
                     array_push($devices, $monitor);
                 }
                 return $devices;
@@ -106,13 +108,13 @@ namespace complicatednetworkmeter {
         */
         public function getDeviceByName($name) {
             $cfg = new \Config();
-            if($cfg instanceof Config) {
-                $sql = new mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
+            if($cfg instanceof \Config) {
+                $sql = new \mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
                 $stmt = $sql->prepare("SELECT * FROM monitor WHERE name=?");
                 $stmt->bind_param("s", $name);
                 $data = $stmt->execute();
                 $stmt->close();
-                $monitor = new MonitorAPI(array($data['name'], $data['dns'], $data['ping']));
+                $monitor = new \MonitorAPI(array($data['name'], $data['dns'], $data['ping']));
                 return $monitor;
             }
             return null;
@@ -125,8 +127,8 @@ namespace complicatednetworkmeter {
         */
         public function disableDevice($name) {
             $cfg = new \Config();
-            if($cfg instanceof Config) {
-                $sql = new mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
+            if($cfg instanceof \Config) {
+                $sql = new \mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
                 $stmt = $sql->prepare("UPDATE monitor WHERE name=? SET disabled=?");
                 $stmt->bind_param("ss", $name, "true");
                 $stmt->execute();
@@ -143,8 +145,8 @@ namespace complicatednetworkmeter {
         */
         public function isDeviceDisabled($name) {
             $cfg = new \Config();
-            if($cfg instanceof Config) {
-                $sql = new mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
+            if($cfg instanceof \Config) {
+                $sql = new \mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
                 $stmt = $sql->prepare("SELECT disabled FROM monitor WHERE name=?");
                 $stmt->bind_param("s", $name);
                 $bol = $stmt->execute();
@@ -161,8 +163,8 @@ namespace complicatednetworkmeter {
         */
         public function removeDevice($name) {
             $cfg = new \Config();
-            if($cfg instanceof Config) {
-                $sql = new mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
+            if($cfg instanceof \Config) {
+                $sql = new \mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
                 $stmt = $sql->prepare("DELETE FROM monitor WHERE name=?");
                 $stmt->bind_param("s", $name);
                 $stmt->execute();
