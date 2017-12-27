@@ -57,8 +57,15 @@ namespace complicatednetworkmeter {
         *
         * @author xize
         */
-        public function updatePassword($password) {
-
+        public function updatePassword($username, $oldpassword, $password) {
+            $cfg = new \Config();
+            if($cfg instanceof Config) {
+                $sql = new mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
+                $stmt = $sql->prepare("UPDATE password FROM users WHERE name=? AND password=? SET password=?");
+                $stmt->bind_param("sss", $username, $this->encrypt($oldpassword), $this->encrypt($password);
+                $stmt->execute();
+                $stmt->close();
+            }
         }
 
         /**
