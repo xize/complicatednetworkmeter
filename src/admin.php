@@ -47,9 +47,11 @@ namespace complicatednetworkmeter {
                $sql = new mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB()); 
                $stmt = $sql->prepare("UPDATE name FROM users WHERE name=? SET name=?");
                $stmt->bind_param("ss", $oldname, $username);
-               $stmt->execute();
+               $bol = $stmt->execute();
                $stmt->close();
+               return $bol;
             }
+            return false;
         }
 
         /**
@@ -63,9 +65,11 @@ namespace complicatednetworkmeter {
                 $sql = new mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
                 $stmt = $sql->prepare("UPDATE password FROM users WHERE name=? AND password=? SET password=?");
                 $stmt->bind_param("sss", $username, $this->encrypt($oldpassword), $this->encrypt($password);
-                $stmt->execute();
+                $bol = $stmt->execute();
                 $stmt->close();
+                return $bol;
             }
+            return false;
         }
 
         /**
