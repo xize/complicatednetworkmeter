@@ -223,6 +223,7 @@ namespace complicatednetworkmeter\install {
                     `dns`  varchar(8) NOT NULL,
                     `ping` varchar(8) NOT NULL,
                     `monitor` varchar(8) NOT NULL,
+                    `disabled` varchar(8) NOT NULL,
                     PRIMARY KEY(`id`),
                     UNIQUE `monitor` (name),
                     KEY `name` (`name`)
