@@ -33,8 +33,16 @@ namespace complicatednetworkmeter\admin {
         * @author xize
         */
         public function isLoggedIn() {
-            if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == 1) {
-                return true;
+
+            $cfg = new \Config();
+            if($cfg instanceof \Config) {
+                $sql = new mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
+                $stmt = $sql->prepare("SELECT sesstoken FROM users");
+                $token = $stmt->execute();
+                $stmt->close();
+                if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == 1 && isset($_SESSION['security_token']) && $_SESSION['security_token'] == $token) {
+                    return true;
+                }
             }
             return false;
         }
