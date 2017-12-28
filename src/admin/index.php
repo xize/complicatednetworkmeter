@@ -16,10 +16,15 @@ limitations under the License.
 */
 
 use complicatednetworkmeter\api;
+use complicatednetworkmeter;
 
 namespace complicatednetworkmeter\admin {
+
+    session_start();
+
     require_once("adminportal.php");
     require_once("../api/monitorapi.php");
+    require_once("../config.php");
 
     $portal = new \AdminPortal();
 ?>
@@ -46,17 +51,37 @@ namespace complicatednetworkmeter\admin {
                         $username = $_POST['username'];
                         $password = $portal->encrypt($_POST['password']);
 
-                        if($username == $portal->getUsername()) {
-                            if($password == $portal->getPassword()) {
+                        if($username == $portal->getUsername() && $password ==  $portal->getPassword()) {
+                            $_SESSION['loggedin'] = 1;
 
-                            } else {
-                                
+                            $cfg = new \Config();
+                            
+                            if($cfg instanceof \Config) {
+                                $sql = new \mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
+                                $stmt = $sql->prepare("UPDATE token FROM users WHERE name=? SET token=?");
+                                $token = $portal->generateToken(30);
+                                $stmt->bind_param("ss", $_POST['username'], $token);
+                                $stmt->execute();
+                                $stmt->close();
+                                $_SESSION['security_token'] = $token;
+                                echo "<h1>successfully logged in !</h1>";
+                                header("refresh:5;URL=index.php");
+                                echo "login successfully, redirecting you in 5 seconds!";
                             }
+
                         } else {
-
+                            echo "<h1>error login failed!</h1>";
+                            header("refresh:5;URL=index.php");
+                            echo "login failed!, redirecting in 5 seconds.";
                         }
-
                     } else {
+                        #cleanup everything what could be a attempt to hijacking.
+
+                        unset($_SESSION['loggedin']);
+                        unset($_SESSION['security_token']);
+                        session_destroy($_SESSION['loggedin']);
+                        session_destroy($_SESSION['security_token']);
+
                         echo "<div class=\"login\"/>";
                         echo "  <form name=\"login\" method=\"post\" action=\"\"/>";
                         echo "      <p>username: <input type=\"text\" name=\"username\" value=\"username\"/></p>";

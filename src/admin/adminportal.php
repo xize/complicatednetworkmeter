@@ -226,6 +226,20 @@ namespace complicatednetworkmeter\admin {
             $finalpass = base64_encode($hmac.$encrypted);
             return $finalpass;
         }
+
+        /**
+        * generates a new token
+        *
+        * @author xize
+        */
+        public function generateToken($length) {
+            $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXYZ';
+            $token = "";
+            for($i = 0; $i < $length; $i++) {
+                $token .= $chars[0, strlen($chars)];
+            }
+            return $chars;
+        }
     }
 }
 
