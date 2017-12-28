@@ -179,7 +179,7 @@ namespace complicatednetworkmeter\admin {
         *
         * @author xize
         */
-        private function encrypt($password) {
+        public function encrypt($password) {
             $salted = $salted = \Salt::getGenerator()->createSalt($password, 2048);
             $ivlength = openssl_cipher_iv_length($cipher="AES-256-CBC");
             $iv = openssl_random_pseudo_bytes($ivlength);
