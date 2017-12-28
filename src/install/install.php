@@ -236,6 +236,7 @@ namespace complicatednetworkmeter\install {
                     `name` varchar(100) NOT NULL,
                     `password`  varchar(100) NOT NULL,
                     `monitor` varchar(8) NOT NULL,
+                    `sesstoken` varchar(100) NOT NULL,
                     PRIMARY KEY(`id`),
                     UNIQUE `users` (name),
                     KEY `name` (`name`)
