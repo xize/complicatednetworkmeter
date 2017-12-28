@@ -40,6 +40,36 @@ namespace complicatednetworkmeter\admin {
         }
 
         /**
+        * returns the username from the database.
+        *
+        * @author xize
+        */
+        public function getUsername() {
+            $cfg = new \Config();
+            if($cfg instanceof \Config) {
+                $sql = new mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
+                $stmt = $sql->prepare("SELECT name FROM users");
+                return $stmt->execute();
+            }
+            return null;
+        }
+
+        /**
+        * returns the password from the database.
+        *
+        * @author xize
+        */
+        public function getPassword() {
+            $cfg = new \Config();
+            if($cfg instanceof \Config) {
+                $sql = new mysqli($cfg->getNetwork(), $cfg->getUser(), $cfg->getPassword(), $cfg->getDB());
+                $stmt = $sql->prepare("SELECT password FROM users");
+                return $stmt->execute();
+            }
+            return null;
+        }
+
+        /**
         * updates the username
         *
         * @author xize
