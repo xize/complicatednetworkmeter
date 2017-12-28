@@ -255,11 +255,25 @@ namespace complicatednetworkmeter\install {
         */
         public function createUser($network, $user, $password, $db, $cms_user, $cms_password) {
             $sql = new \mysqli($network, $user, $password, $db);
-            $stmt = $sql->prepare("INSERT INTO users (name, password) VALUES (?, ?)");
+            $stmt = $sql->prepare("INSERT INTO users (name, password) VALUES (?, ?, ?, ?)");
             $finalpass = $this->encrypt($cms_password);
-            $stmt->bind_param("ss", $cms_user, $finalpass);
+            $stmt->bind_param("ssss", $cms_user, $finalpass, ($_SESSION['ismonitor'] != null) ? "true" : "false", $this->generateToken(30));
             $stmt->execute();
             $stmt->close();
+        }
+
+        /**
+        * returns a token
+        *
+        * @author xize
+        */
+        public function generateToken($length) {
+            $chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            $token = "";
+            for($i = 0; $i < $length; $i++) {
+                $token .= $chars[rand(0, strlen($chars))];
+            }
+            return $token;
         }
 
         /**
