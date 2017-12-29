@@ -39,7 +39,7 @@ namespace complicatednetworkmeter\scheduler {
 
     $i = 0;
 
-    #test...
+    #test... NOTE: please also make sure this will also keeps looping even if there is no browser window open.
     $task = new Task(function() {
         echo "hello world!, this is my ".$i++." visit!";
     }, 100).start();
