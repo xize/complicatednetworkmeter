@@ -28,8 +28,9 @@ namespace complicatednetworkmeter\scheduler {
         * @param ticks - how long it takes before the next tick
         * @author xize
         */
-        public function start(int $ticks) {
-            $this->ticks = $ticks;
+        public function start() {
+            $this->isrunning = true;
+            $this->run();
         }
 
         /**
@@ -39,6 +40,15 @@ namespace complicatednetworkmeter\scheduler {
         */
         public function getTick() {
             return $this->ticks;
+        }
+
+        /**
+        * sets the tick rate of this scheduler
+        *
+        * @author xize
+        */
+        public function setTick(int $ticks) {
+            $this->ticks = $ticks;
         }
 
         /**

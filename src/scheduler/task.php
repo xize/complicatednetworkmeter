@@ -26,6 +26,7 @@ namespace complicatednetworkmeter\scheduler {
 
         public function __construct($f, $ticks) {
             $this->f = f;
+            $this->setTick($ticks);
         }
 
         public function run() {
@@ -41,6 +42,6 @@ namespace complicatednetworkmeter\scheduler {
     #test...
     $task = new Task(function() {
         echo "hello world!, this is my ".$i++." visit!";
-    }).start(10);
+    }, 100).start();
 
 }
