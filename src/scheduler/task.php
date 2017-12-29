@@ -1,5 +1,4 @@
 <?php
-<?php
 /*
 Copyright 2017 Guido Lucassen
 
