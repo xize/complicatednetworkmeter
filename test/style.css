@@ -1,0 +1,21 @@
+body {
+    font-family:helvetica;
+    color:lightblue;
+}
+
+hr {
+    border: solid 1px lightblue;
+}
+
+a {
+    text-decoration: underline;
+    color:lightblue;
+}
+
+a:hover {
+    font-weight:bold;
+}
+
+li {
+    list-style: square;
+}
