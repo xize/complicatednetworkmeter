@@ -420,7 +420,11 @@ namespace complicatednetworkmeter {
             return strlen(\$this->path) > 0;
         }
 
-
+        /**
+        * returns the additional path
+        *
+        * @author xize
+        */
         public function getAdditionalPath() {
             return \$this->path;
         }
