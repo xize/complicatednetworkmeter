@@ -31,6 +31,7 @@ namespace complicatednetworkmeter\scheduler {
         public function start() {
             $this->isrunning = true;
             $this->run();
+            return $this;
         }
 
         /**

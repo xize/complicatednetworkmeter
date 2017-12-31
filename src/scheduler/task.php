@@ -1,5 +1,5 @@
- <?php
-/*
+<?php
+ /*
 Copyright 2017 Guido Lucassen
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +16,7 @@ limitations under the License.
 */
 
 namespace complicatednetworkmeter\scheduler {
-    
+
     require_once("scheduler.php");
 
     class Task extends Scheduler {
@@ -36,11 +36,17 @@ namespace complicatednetworkmeter\scheduler {
         }
     }
 
-    $i = 0;
-
     #test... NOTE: please also make sure this will also keeps looping even if there is no browser window open.
     $task = new Task(function() {
-        echo "hello world!, this is my ".$i++." visit!";
-    }, 100).start();
 
+        $i = ($i > 0 ? $i : 0);
+
+        if($i == 8) {
+            $this->stop();
+            return;
+        } else {
+            echo "hello world!, this is my ".$i++." visit!";
+        }
+    }, 3000);
+    $task->start();
 }
