@@ -330,6 +330,15 @@ limitations under the License.
 
 namespace complicatednetworkmeter {
                     
+    #################################################################################################
+    #      please edit this line if your monitor is located not inside the root of the server!      # 
+    #################################################################################################
+    
+    private \$path = "";
+
+    ## END OF LINE DO NOT EDIT ANYTHING BENEATH THIS LINE ##
+
+
     private \$network;
     private \$user;
     private \$password;
@@ -400,6 +409,20 @@ namespace complicatednetworkmeter {
         */
         public function getMainNode() {
             return \$this->mainnode;
+        }
+
+        /**
+        * returns true if the monitor path is differently located
+        *
+        * @author xize
+        */
+        public function hasAdditionalPath() {
+            return strlen(\$this->path) > 0;
+        }
+
+
+        public function getAdditionalPath() {
+            return \$this->path;
         }
     }
 }";
