@@ -1,4 +1,4 @@
-<?php
+ <?php
 /*
 Copyright 2017 Guido Lucassen
 
@@ -24,7 +24,7 @@ namespace complicatednetworkmeter\scheduler {
         private $f;
 
         public function __construct($f, $ticks) {
-            $this->f = f;
+            $this->f = $f;
             $this->setTick($ticks);
         }
 
