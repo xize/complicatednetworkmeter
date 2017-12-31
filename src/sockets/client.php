@@ -15,22 +15,44 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+use complicatednetworkmeter;
+use complicatednetworkmeter\scheduler;
+
 namespace complicatednetworkmeter\sockets {
     
+    require_once("../config.php");
     require_once("socket.php");
+    require_once("../scheduler/task.php");
 
     class Client extends MonitorSocket {
 
-        public function isConnected() {
+        private $task;
+        private $laststate;
 
+        public function isConnected() {
+            if($this->task != null  && $this->task->isRunning()) {
+                return $this->laststate;
+            }
+            return false;
         }
 
         public function connect() {
-
+            $this->task = new \Task(function() {
+                $cfg = new \Config();
+                $mainnode = $cfg->getMainNode();
+                $additionalpath = ($cfg->hasAdditionalPath() ? $cfg->getAdditionalPath() : "");
+                try {
+                    $con = fopen("http://".$mainnode."/".$additionalpath."/api/?v=", "r");
+                    fclose($con);
+                    $this->laststate = true;
+                } catch($ex)  {
+                    $this->laststate = false;
+                }
+            }, 100);
         }
 
         public function disconnect() { 
-
+            $this->task->cancel();
         }
     }
 
