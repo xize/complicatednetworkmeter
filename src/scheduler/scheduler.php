@@ -17,7 +17,7 @@ limitations under the License.
 
 namespace complicatednetworkmeter\scheduler {
 
-    abstract class Scheduler { 
+    abstract class Scheduler {
 
         private $isrunning = false;
         private $ticks = 0;
@@ -28,10 +28,13 @@ namespace complicatednetworkmeter\scheduler {
         * @param ticks - how long it takes before the next tick
         * @author xize
         */
-        public function start() {
+        public function start($instance) {
+            declare(ticks = 30);
+            register_tick_function([&$instance, 'run'], true);
+
             $this->isrunning = true;
-            $this->run();
-            return $this;
+            #$this->run();
+            return $instance;
         }
 
         /**
@@ -67,6 +70,7 @@ namespace complicatednetworkmeter\scheduler {
         * @author xize
         */
         public function stop() {
+            unregister_tick_function([&$this, 'run']);
             $this->isrunning = false;
         }
 

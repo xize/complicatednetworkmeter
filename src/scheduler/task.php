@@ -48,5 +48,5 @@ namespace complicatednetworkmeter\scheduler {
             echo "hello world!, this is my ".$i++." visit!";
         }
     }, 3000);
-    $task->start();
+    $task->start($task);
 }
