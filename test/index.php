@@ -17,4 +17,6 @@ set_time_limit(0);
 $testing = new Test();
 
 declare(ticks = 1);
+
+//this for some reason timeouts the thread
 register_tick_function([&$testing, 'foo'], true);
