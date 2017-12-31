@@ -25,7 +25,6 @@ namespace complicatednetworkmeter\sockets {
 
         }
 
-        //TODO: we need to create a socket by using socket_create() with the packet type of SOCK_RAW (ICMP ping)
         public function connect() {
 
         }
