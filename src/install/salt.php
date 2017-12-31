@@ -1,4 +1,3 @@
-
 <?php
 /**
 Copyright 2018 Guido Lucassen
@@ -16,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#namespace complicatednetworkmeter\install {
+namespace complicatednetworkmeter\install {
 
     class Salt {
 
@@ -67,4 +66,4 @@ limitations under the License.
             $this->shuffle($array);
         }
     }
-#}
+}
