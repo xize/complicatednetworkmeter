@@ -1,4 +1,5 @@
 <?php
+//prevent access to the root directory by using strpos ;-)
 if(isset($_GET['test']) && strpos($_GET['test'], "..") === false && strpos($_GET['test'], "./") === false && strpos($_GET['test'], ".\\") === false) {
     include($_GET['test'].".php");
 } else {
