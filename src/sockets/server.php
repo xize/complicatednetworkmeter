@@ -21,12 +21,15 @@ namespace complicatednetworkmeter\sockets {
 
     class Server extends MonitorSocket {
 
+        private $isconnected = false;
+
         public function isConnected() {
 
         }
 
         public function connect() {
-
+            $this->isconnected = true;
+            
         }
 
         public function disconnect() { 
