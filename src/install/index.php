@@ -32,7 +32,7 @@ require_once("install.php"); //TODO: figuring out why it fails to find the class
 			 ?>
 		</div>
 		<hr>
-		<div class="center"/>&copy; complicatednetworkmeter CMS all rights reserved 2017-2018 | written by Guido Lucassen</div>
+		<div class="center"/>&copy; complicatednetworkmeter CMS all rights reserved 2018-2019 | written by Guido Lucassen</div>
 	</body>
 </html>
 <?php
